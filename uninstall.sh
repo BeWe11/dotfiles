@@ -1,15 +1,18 @@
 ########## Variables
 
-dir=~/dotfiles                             # dotfiles directory
-olddir=~/dotfiles_old                      # old dotfiles backup directory
-files=".tmux.conf .gitconfig .vimrc .vim"  # list of files/folders to symlink in homedir
+dir=~/dotfiles                                     # dotfiles directory
+olddir=~/dotfiles_old                              # old dotfiles backup directory
+files=".bashrc .tmux.conf .gitconfig .vimrc .vim"  # list of files/folders to symlink in homedir
 
 ##########
 
 for file in $files; do
-    echo "Removing symlink from ~/$file to $dir/$file..."
-    rm ~/$file
-    echo "...done!"
+    if [ -h ~/$file ]
+    then
+        echo "Removing symlink from ~/$file to $dir/$file..."
+        rm ~/$file
+        echo "...done!"
+    fi
     if [ -d "$olddir" ]
     then
         if [ -e "$olddir/$file" ]
@@ -28,3 +31,5 @@ then
     rm -rf $olddir
     echo "...done!"
 fi
+
+source ~/.bashrc
