@@ -2,7 +2,7 @@
 
 dir=~/dotfiles                                            # dotfiles directory
 olddir=~/dotfiles_old                                     # old dotfiles backup directory
-files=".bash_aliases .tmux.conf .gitconfig .vimrc .vim/"  # list of files/folders to symlink in homedir
+files=".bash_aliases .tmux.conf .gitconfig .vimrc .vim"  # list of files/folders to symlink in homedir
 
 ##########
 
@@ -17,7 +17,12 @@ for file in $files; do
 	    echo "...done!"
         fi
         echo "Moving ~/$file to $olddir/$file..."
-        mv ~/$file $olddir
+        if [ -d $file ]
+        then    
+            mv ~/$file/ $olddir
+        else
+            mv ~/$file $olddir
+        fi    
 	echo "...done!"
     fi
     if [ -h ~/$file ]

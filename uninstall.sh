@@ -18,7 +18,12 @@ for file in $files; do
         if [ -e "$olddir/$file" ]
         then
             echo "Moving $olddir/$file to ~/$file..."
-            mv $olddir/$file ~/file
+            if [ -d $file ]
+            then
+                mv $olddir/$file/ ~/file
+            else
+                mv $olddir/$file ~/file
+            fi    
 	    echo "...done!"
         fi
     fi
@@ -38,5 +43,5 @@ then
     source ~/.bash_profile
 elif [ -f ~/.bashrc ]
 then
-    source ~/.bashrc 
+    source ~/.bashrc
 fi
