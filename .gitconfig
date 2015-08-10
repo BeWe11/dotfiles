@@ -1,0 +1,23 @@
+[user]
+     name = Benjamin Weigang
+     email = Benjamin.Weigang@student.uni-kassel.de
+[core]
+     editor = vim
+    ; excludesfile = $HOME/.gitignore_global
+[alias]
+     st = status
+     ci = commit
+     ca = commit -a
+     br = branch
+     co = checkout
+     df = diff
+     lg = log -p
+     logv = log --name-status
+     ls = ls-files
+     pu = push -u origin master
+     serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
+     up = "!git remote update -p; git merge --ff-only @{u}"
+[color]
+    ui = true
+[push]
+    default = tracking
