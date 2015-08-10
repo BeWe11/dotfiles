@@ -13,7 +13,7 @@ for file in $files; do
         rm ~/$file
         echo "...done!"
     fi
-    if [ -d "$olddir" ]
+    if [ -d $olddir ]
     then
         if [ -e "$olddir/$file" ]
         then
@@ -25,7 +25,7 @@ for file in $files; do
 done
 
 # remove olddir directory
-if [ -d "$olddir" ]
+if [ -d $olddir ]
 then
     echo "Removing $olddir..."
     rm -rf $olddir
