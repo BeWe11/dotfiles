@@ -6,23 +6,25 @@ files=".tmux.conf .gitconfig .vimrc .vim"  # list of files/folders to symlink in
 
 ##########
 
-# change to the dotfiles directory
-echo "Changing to the $dir directory"
-cd $dir
-echo "...done"
-
-# delete symlinks, then move files in old directory to home directory
 for file in $files; do
-    echo "Removing symlink for $file"
+    echo "Removing symlink from ~/$file to $dir/$file..."
     rm ~/$file
-    echo "Moving files in $olddir to home directory"
-    mv $olddir/$file ~/file
+    echo "...done!"
+    if [ -d "$olddir" ]
+    then
+        if [ -e "$olddir/$file" ]
+        then
+            echo "Moving $olddir/$file to ~/$file..."
+            mv $olddir/$file ~/file
+	    echo "...done!"
+        fi
+    fi
 done
 
 # remove olddir directory
-echo "Removing $oldir directory"
-rm -rf $olddir
-echo "...done"
-
-source ~/.bashrc
-source ~/.vimrc
+if [ -d "$olddir" ]
+then
+    echo "Removing $olddir..."
+    rm -rf $olddir
+    echo "...done!"
+fi
