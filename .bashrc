@@ -18,8 +18,8 @@ source /usr/local/Modules/current/init/bash
 if [ -d $HOME/.modules ];
 then
     module use --append $HOME/.modules
+    module load ifort
 fi
-module load ifort
 #module load texlive/2013
 #module load prefix/loct
 

@@ -8,10 +8,10 @@ files=".bashrc .tmux.conf .gitconfig .vimrc .vim"  # list of files/folders to sy
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks 
 for file in $files; do
-    if [ -e "~/$file" ]
+    if [ -e ~/$file ]
     then
-        if [ ! -d "$olddir" ]
-	then
+        if [ ! -d $olddir ]
+     	then
 	    echo "Creating $olddir to backup existing dotfiles in the home folder..."
 	    mkdir -p $olddir
 	    echo "...done!"
