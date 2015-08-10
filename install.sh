@@ -25,4 +25,11 @@ for file in $files; do
     echo "...done!"
 done
 
-source ~/.bashrc
+# source .bash_profile if it exists (OSX), else source .bashrc
+if [ -f ~/.bash_profile ]
+then
+    source ~/.bash_profile
+elif [ -f ~/.bashrc ]
+then
+    source ~/.bashrc 
+fi
