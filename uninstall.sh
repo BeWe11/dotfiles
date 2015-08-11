@@ -15,7 +15,7 @@ for file in $files; do
     fi
     if [ -d $olddir ]
     then
-        if [ -e "$olddir/$file" ]
+        if [ -e $olddir/$file ]
         then
             echo "Moving $olddir/$file to ~/$file..."
             if [ -d $file ]

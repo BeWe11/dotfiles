@@ -6,9 +6,9 @@ files=".bash_aliases .tmux.conf .gitconfig .vimrc .vim"  # list of files/folders
 
 ##########
 
-# move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks 
+# move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks
 for file in $files; do
-    if [ -f ~/$file ]
+    if [[ -e ~/$file && ! -h ~/$file ]]
     then
         if [ ! -d $olddir ]
      	then
@@ -18,21 +18,21 @@ for file in $files; do
         fi
         echo "Moving ~/$file to $olddir/$file..."
         if [ -d $file ]
-        then    
+        then
             mv ~/$file/ $olddir
         else
             mv ~/$file $olddir
-        fi    
+        fi
 	echo "...done!"
     fi
     if [ -h ~/$file ]
     then
         echo "Symlink from ~/$file to $dir/$file already exists!"
-    else    
+    else
         echo "Creating symlink from ~/$file to $dir/$file..."
         ln -s $dir/$file ~/$file
         echo "...done!"
-    fi    
+    fi
 done
 
 # source .bash_profile if it exists (OSX), else source .bashrc
@@ -41,5 +41,5 @@ then
     source ~/.bash_profile
 elif [ -f ~/.bashrc ]
 then
-    source ~/.bashrc 
+    source ~/.bashrc
 fi
