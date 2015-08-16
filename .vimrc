@@ -214,6 +214,7 @@ nmap <Leader><C-I> <Plug>EnhancedJumpsRemoteNewer zz
 nmap g; <Plug>EnhancedJumpsFarFallbackChangeOlder zz
 nmap g, <Plug>EnhancedJumpsFarFallbackChangeNewer zz
 nnoremap <silent> <S-l> :nohl<CR><C-l>
+nmap <Leader>f10 <F10>
 
 let g:tmux_navigator_no_mappings = 1
 nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
