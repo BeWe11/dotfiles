@@ -8,7 +8,7 @@ Plug 'jiangmiao/auto-pairs'
 Plug 'flazz/vim-colorschemes'
 " Plug 'altercation/vim-colors-solarized'
 " Plug 'davidhalter/jedi-vim'
-Plug 'valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe'
 " Plug 'nvie/vim-flake8'
 Plug 'scrooloose/nerdcommenter'
 " Plug 'godlygeek/csapprox'
@@ -27,6 +27,9 @@ Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
 
 call plug#end()
+
+" longer timeout for ycm
+let g:plug_timeout = 1000
 
 
 " latex settings
