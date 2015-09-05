@@ -2,6 +2,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'hdima/python-syntax/'
 Plug 'kien/ctrlp.vim'
+Plug 'kien/rainbow_parentheses.vim'
 Plug 'bling/vim-airline'
 Plug 'edkolev/tmuxline.vim'
 Plug 'jiangmiao/auto-pairs'
@@ -34,6 +35,8 @@ let g:plug_timeout = 1000
 
 " latex settings
 let g:tex_flavor = "latex"
+let g:tex_indent_brace = 0
+let g:tex_noindent_env = ''
 
 " Autoremove trailing whitespaces
 function! <SID>StripTrailingWhitespaces()
@@ -44,8 +47,12 @@ function! <SID>StripTrailingWhitespaces()
 endfun
 autocmd BufWritePost * :call <SID>StripTrailingWhitespaces()
 
-" Use flake8 after file save
-" autocmd BufWritePost *.py call Flake8()
+" Rainbow parantheses
+au VimEnter * RainbowParenthesesToggle
+au Syntax * RainbowParenthesesLoadRound
+au Syntax * RainbowParenthesesLoadSquare
+au Syntax * RainbowParenthesesLoadBraces
+
 
 " Keep CtrlP cache for faster loading times
 " let g:ctrlp_clear_cache_on_exit = 0
@@ -74,12 +81,12 @@ set ttyfast
 set wildmenu
 set laststatus=2
 syntax on
-filetype plugin on
 filetype plugin indent on
-set autoindent
-set copyindent
+" set autoindent
 set showmatch
 ":match Error /\s\+$/
+set backspace=indent,eol,start
+
 
 " Autosave
 set hidden
