@@ -21,3 +21,5 @@
     ui = true
 [push]
     default = tracking
+[credential]
+	helper = osxkeychain
