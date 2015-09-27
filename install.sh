@@ -35,6 +35,14 @@ for file in $files; do
     fi
 done
 
+# create file containing the tmux namespace fix in osx
+if [[ "$OSTYPE" == "darwin"* ]]; then
+    echo 'Creating ~/.tmux-osx.conf...'
+    FIXSTRING='set-option -g default-command "reattach-to-user-namespace -l bash"'
+    echo $FIXSTRING > ~/.tmux-osx.conf
+    echo '... done!'
+fi
+
 # source .bash_profile if it exists (OSX), else source .bashrc
 if [ -f ~/.bash_profile ]
 then

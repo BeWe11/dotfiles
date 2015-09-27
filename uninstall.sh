@@ -37,6 +37,14 @@ then
     echo "...done!"
 fi
 
+# remove .tmux-osx.conf if it exists
+if [ -f ~/.tmux-osx.conf ]
+then
+    echo "Removing ~/.tmux-osx.conf..."
+    rm ~/.tmux-osx.conf
+    echo '...done!'
+fi
+
 # source .bash_profile if it exists (OSX), else source .bashrc
 if [ -f ~/.bash_profile ]
 then
