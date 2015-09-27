@@ -22,6 +22,7 @@ Plug 'vim-scripts/EnhancedJumps'
 Plug 'justinmk/vim-sneak'
 Plug 'junegunn/goyo.vim'
 Plug 'vim-scripts/TeX-PDF'
+Plug 'godlygeek/tabular'
 
 " Snippets
 Plug 'sirver/ultisnips'
@@ -225,6 +226,10 @@ nmap g; <Plug>EnhancedJumpsFarFallbackChangeOlder zz
 nmap g, <Plug>EnhancedJumpsFarFallbackChangeNewer zz
 nnoremap <silent> <S-l> :nohl<CR><C-l>
 nmap <Leader>f10 <F10>
+nnoremap <leader>ae :Tab /=<CR>
+nnoremap <leader>ac y :Tab /<C-R>"<CR>
+xnoremap <leader>ac y :Tab /<C-R>"<CR>
+xnoremap <leader>ae :Tab /=<CR>
 
 let g:tmux_navigator_no_mappings = 1
 nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
