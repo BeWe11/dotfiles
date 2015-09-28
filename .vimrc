@@ -30,23 +30,23 @@ Plug 'honza/vim-snippets'
 
 call plug#end()
 
-" longer timeout for ycm
-let g:plug_timeout = 1000
+ " longer timeout for ycm
+ let g:plug_timeout = 1000
 
 
-" latex settings
-let g:tex_flavor = "latex"
-let g:tex_indent_brace = 0
-let g:tex_noindent_env = ''
+ " latex settings
+ let g:tex_flavor = "latex"
+ let g:tex_indent_brace = 0
+ let g:tex_noindent_env = ''
 
-" Autoremove trailing whitespaces
-function! <SID>StripTrailingWhitespaces()
-	let l = line(".")
-	let c = col(".")
-	%s/\s\+$//e
-	call cursor(l, c)
-endfun
-autocmd BufWritePost * :call <SID>StripTrailingWhitespaces()
+ " Autoremove trailing whitespaces
+ function! <SID>StripTrailingWhitespaces()
+     let l = line(".")
+     let c = col(".")
+     %s/\s\+$//e
+     call cursor(l, c)
+ endfun
+ autocmd BufWritePost * :call <SID>StripTrailingWhitespaces()
 
 " Rainbow parantheses
 au VimEnter * RainbowParenthesesToggle
@@ -55,17 +55,17 @@ au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
 
-" Keep CtrlP cache for faster loading times
-" let g:ctrlp_clear_cache_on_exit = 0
-" let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+ " Keep CtrlP cache for faster loading times
+ let g:ctrlp_clear_cache_on_exit = 0
+ let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 
 
-" let g:flake8_show_in_file=1
-" let g:jedi#popup_on_dot = 0
-let g:ctrlp_show_hidden = 1
-let NERDSpaceDelims = 1
+" " let g:flake8_show_in_file=1
+" " let g:jedi#popup_on_dot = 0
+ let g:ctrlp_show_hidden = 1
+ let NERDSpaceDelims = 1
 " let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#fnamemod = ':t'
 
 " Color settings
 set background=dark
@@ -96,7 +96,10 @@ set autowrite
 " Keep the cursor on the same column
 set nostartofline
 
-set cursorline
+" use old regexp engine to fix lag with cursorline
+" set re=1
+
+" set cursorline
 set encoding=utf8
 set termencoding=utf-8
 
@@ -132,9 +135,9 @@ function! g:UltiSnips_Complete()
     call UltiSnips#ExpandSnippet()
     if g:ulti_expand_res == 0
       if pumvisible()
-        return "\<C-N>"
+	return "\<C-N>"
       else
-        return "\<TAB>"
+	return "\<TAB>"
       endif
     endif
   endif
@@ -165,13 +168,13 @@ let g:goyo_height=100
 function! s:goyo_enter()
   set colorcolumn=0
   " hi ColorColumn ctermbg=0
-  silent !tmux set status off
+  silent !tmux set status on
   " set noshowmode
   " set noshowcmd
 endfunction
 
 function! s:goyo_leave()
-  silent !tmux set status on
+  " silent !tmux set status on
   " set showmode
   " set showcmd
   " set scrolloff=5
