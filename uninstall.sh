@@ -20,9 +20,9 @@ for file in $files; do
             echo "Moving $olddir/$file to ~/$file..."
             if [ -d $file ]
             then
-                mv $olddir/$file/ ~/file
+                mv $olddir/$file/ ~/$file
             else
-                mv $olddir/$file ~/file
+                mv $olddir/$file ~/$file
             fi    
 	    echo "...done!"
         fi
