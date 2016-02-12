@@ -31,3 +31,5 @@ fi
 
 # make tmux work with 256 colors
 alias tmux="TERM=screen-256color-bce tmux"
+
+alias g++='g++ --std=c++11'

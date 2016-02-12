@@ -1,3 +1,7 @@
+snippet #!
+#!/usr/bin/env python3
+endsnippet
+
 snippet future
 from __future__ import print_function, division, unicode_literals
 endsnippet
@@ -12,4 +16,11 @@ def func(t):
 	result += vars[-1] + ': {}'
 	return result
 `print('`!p snip.rv=func(t)`'.format(${1}))
+endsnippet
+
+snippet pylab
+import numpy as np
+from matplotlib import pyplot as plt
+plt.rc('text', usetex=True)
+plt.rc('axes', labelsize=16)
 endsnippet
