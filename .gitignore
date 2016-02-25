@@ -1,3 +1,8 @@
 .vim/.netrwhist
 .vim/plugged/
 *.swp
+.expenses.pdl
+.sync
+Icon?
+.bash_profile
+.xvimrc

@@ -69,11 +69,12 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 
 " Color settings
 set background=dark
-colo PaperColor
+colo solarized
 set t_Co=256
 set t_ut= "fix background redrawing in tmux
 let g:airline_powerline_fonts = 1
-let g:airline_theme='papercolor'
+" let g:airline_theme='papercolor'
+let g:airline_theme='solarized'
 
 
 " Misc
@@ -182,6 +183,19 @@ endfunction
 
 autocmd! User GoyoEnter nested call <SID>goyo_enter()
 autocmd! User GoyoLeave nested call <SID>goyo_leave()
+
+" switch between solarized dark and light, iterm2 escape codes are wrapped
+" by tmux codes so that tmux sends them to iterm unchanged
+function! s:SwitchSolarized()
+    if &background == 'dark'
+      let &background = 'light'
+      silent !echo -e "\033Ptmux;\033\033]50;SetProfile=solarized_light\a\033\\"
+    elseif &background == 'light'
+      let &background = 'dark'
+      silent !echo -e "\033Ptmux;\033\033]50;SetProfile=solarized_dark\a\033\\"
+    endif
+endfunction
+map <silent> <F6> :call <SID>SwitchSolarized()<CR>
 
 " vim-sneak EasyMotion mode
 let g:sneak#s_next = 1
