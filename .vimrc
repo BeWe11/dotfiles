@@ -229,7 +229,7 @@ nnoremap <leader>sf :call <SID>source_type_conf()<CR>
 nnoremap <leader>j :cn<CR>
 nnoremap <leader>k :cp<CR>
 nnoremap <leader>l :ccl<CR>
-nnoremap <leader>e :!python %<CR>
+nnoremap <leader>r :!rubber --pdf %<CR>
 nnoremap <leader>s :wincmd r<CR>
 nnoremap <C-j> <C-d>zz
 nnoremap <C-k> <C-u>zz

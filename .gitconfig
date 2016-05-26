@@ -1,6 +1,6 @@
 [user]
      name = Benjamin Weigang
-     email = Benjamin.Weigang@gmx.de
+     email = Benjamin.Weigang@mailbox.org
 [core]
      editor = vim
     ; excludesfile = $HOME/.gitignore_global
