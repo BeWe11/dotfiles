@@ -1,6 +1,7 @@
 snippet preambel "Standart document preambel"
 \documentclass[12pt]{article}
 
+\usepackage{microtype}
 ${1:packages}
 
 \begin{document}
@@ -16,6 +17,10 @@ endsnippet
 
 snippet req "Reference an equation"
 equation \ref{eq:${1:label}}${0}
+endsnippet
+
+snippet rfig "Reference an equation"
+figure \ref{fig:${1:label}}${0}
 endsnippet
 
 snippet bv "Bold vector" w
