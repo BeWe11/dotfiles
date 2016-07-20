@@ -23,6 +23,7 @@ Plug 'justinmk/vim-sneak'
 Plug 'junegunn/goyo.vim'
 Plug 'vim-scripts/TeX-PDF'
 Plug 'godlygeek/tabular'
+" Plug 'reedes/vim-pencil'
 
 " Snippets
 Plug 'sirver/ultisnips'
@@ -163,19 +164,24 @@ let g:ycm_key_list_select_completion = ['<Down>']
 let g:ycm_key_list_previous_completion = ['<Up>']
 
 " Goyo settings
-let g:goyo_width=81
+let g:goyo_width=80
 let g:goyo_height=100
 
 function! s:goyo_enter()
-  set colorcolumn=0
+  " setlocal formatoptions=ant
+  set textwidth=80
+
+  " set colorcolumn=0
   " hi ColorColumn ctermbg=0
-  silent !tmux set status on
+  silent !tmux set status off
   " set noshowmode
   " set noshowcmd
 endfunction
 
 function! s:goyo_leave()
-  " silent !tmux set status on
+  set textwidth=0
+  " setlocal formatoptions=croql
+  silent !tmux set status on
   " set showmode
   " set showcmd
   " set scrolloff=5
@@ -212,6 +218,17 @@ endfunction
 function! <SID>source_type_conf()
   execute 'source '.'~/.vim/ftplugin/'.&filetype.'.vim'
 endfunction
+
+" Setup for vim-pencil
+augroup pencil
+  autocmd!
+  autocmd FileType markdown,mkd call pencil#init()
+  autocmd FileType text         call pencil#init()
+  autocmd FileType tex,latex    call pencil#init()
+augroup END
+
+let g:pencil#wrapModeDefault = 'soft'   " default is 'hard'
+"
 
 " key remaps
 let mapleader = ";"
