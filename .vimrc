@@ -3,7 +3,8 @@ call plug#begin('~/.vim/plugged')
 Plug 'hdima/python-syntax/'
 Plug 'kien/ctrlp.vim'
 Plug 'kien/rainbow_parentheses.vim'
-Plug 'bling/vim-airline'
+Plug 'vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'flazz/vim-colorschemes'
@@ -23,7 +24,6 @@ Plug 'justinmk/vim-sneak'
 Plug 'junegunn/goyo.vim'
 Plug 'vim-scripts/TeX-PDF'
 Plug 'godlygeek/tabular'
-" Plug 'reedes/vim-pencil'
 
 " Snippets
 Plug 'sirver/ultisnips'
@@ -218,17 +218,6 @@ endfunction
 function! <SID>source_type_conf()
   execute 'source '.'~/.vim/ftplugin/'.&filetype.'.vim'
 endfunction
-
-" Setup for vim-pencil
-augroup pencil
-  autocmd!
-  autocmd FileType markdown,mkd call pencil#init()
-  autocmd FileType text         call pencil#init()
-  autocmd FileType tex,latex    call pencil#init()
-augroup END
-
-let g:pencil#wrapModeDefault = 'soft'   " default is 'hard'
-"
 
 " key remaps
 let mapleader = ";"
