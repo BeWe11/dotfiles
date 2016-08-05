@@ -1,10 +1,11 @@
-########## Variables
-
-dir=~/dotfiles                                            # dotfiles directory
-olddir=~/dotfiles_old                                     # old dotfiles backup directory
-files=".bash_aliases .bash_profile .tmux.conf .gitconfig .vimrc .vim"  # list of files/folders to symlink in homedir
-
-##########
+dir=~/dotfiles                     # dotfiles directory
+olddir=~/dotfiles_old              # old dotfiles backup directory
+files=".bash_aliases \
+       .bash_profile \
+       .tmux.conf \
+       .gitconfig \
+       .vimrc \
+       .vim"                       # list of files/folders to symlink in homedir
 
 # move any existing dotfiles in homedir to dotfiles_old directory, then create symlinks
 for file in $files; do
