@@ -5,3 +5,5 @@ set spelllang=en spell
 let g:tex_comment_nospell = 1
 set tabstop=2
 set shiftwidth=2
+
+nnoremap <leader>r :!latexmk -pdf<CR>
