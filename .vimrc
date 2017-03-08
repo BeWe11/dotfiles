@@ -85,6 +85,7 @@ set wildmenu
 set laststatus=2
 syntax on
 filetype plugin indent on
+au BufRead,BufNewFile,BufFilePre *.mmd set filetype=markdown
 " set autoindent
 set showmatch
 ":match Error /\s\+$/
