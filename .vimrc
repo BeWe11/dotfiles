@@ -1,6 +1,7 @@
 call plug#begin('~/.vim/plugged')
 
 Plug 'hdima/python-syntax/'
+Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'kien/ctrlp.vim'
 Plug 'kien/rainbow_parentheses.vim'
 Plug 'vim-airline'
@@ -24,6 +25,7 @@ Plug 'justinmk/vim-sneak'
 Plug 'junegunn/goyo.vim'
 Plug 'vim-scripts/TeX-PDF'
 Plug 'godlygeek/tabular'
+Plug 'dbakker/vim-projectroot'
 
 " Snippets
 Plug 'sirver/ultisnips'
@@ -79,11 +81,12 @@ let g:airline_theme='solarized'
 
 
 " Misc
+set nocompatible
+syntax on
 set lazyredraw
 set ttyfast
 set wildmenu
 set laststatus=2
-syntax on
 filetype plugin indent on
 au BufRead,BufNewFile,BufFilePre *.mmd set filetype=markdown
 " set autoindent
@@ -127,6 +130,50 @@ set hlsearch
 " color column
 set colorcolumn=81
 " hi ColorColumn ctermbg=0
+
+
+" set vim-projectroot root signifiers
+let g:rootmarkers = ['.svn', '.git', 'DONE', '.hg', '.bzr', '_darcs', 'build.xml']
+
+" todo setup, refer to https://www.python.org/dev/peps/pep-0350/
+let s:codetags = 'FIXME\|BUG\|NOBUG\|HACK\|NOTE\|IDEA\|TODO\|XXX'
+
+augroup HiglightTodo
+    autocmd!
+    autocmd WinEnter,VimEnter * :silent! call matchadd('Todo', s:codetags, -1)
+augroup END
+
+function! ListTodo()
+    let previous_wildignore = &wildignore
+    setlocal wildignore+=DONE
+    exec 'vimgrep /' . s:codetags . '/j ' . ProjectRootGuess() . '/**/*'
+    cw
+    let &wildignore = previous_wildignore
+endfunction
+
+function! s:write_line(line, path)
+    new
+    setlocal buftype=nofile bufhidden=hide noswapfile nobuflisted
+    exec 'normal! a' . a:line . "\<ESC>"
+    exec 'w >>' a:path
+    bd
+endfunction
+
+function! FinishTodo() range
+    let path = ProjectRootGuess() . '/DONE'
+    if filewritable(path)
+        for linenumber in range(a:firstline, a:lastline)
+            let line = getline(linenumber)
+            call s:write_line(line, path)
+            exec linenumber . 'd _'
+        endfor
+        call s:write_line('[' . strftime('%Y-%m-%d') . ']' . "\n", path)
+        exec a:firstline
+    else
+        echo 'No DONE file in root directory'
+    endif
+endfunction
+
 
 " EnhancedJumps delay time to switch buffers
 let g:stopFirstAndNotifyTimeoutLen = 1
@@ -227,7 +274,7 @@ nnoremap <F10> :Goyo<CR>
 nmap <leader>bb :CtrlPBuffer<CR>
 nmap <leader>bj :bnext<CR>
 nmap <leader>bk :bprevious<CR>
-nnoremap <leader>bw :bd<CR>
+nnoremap <leader>bw :bp\|bd #<CR>
 nnoremap <leader>ev :vsplit $MYVIMRC<CR>
 nnoremap <leader>ef :call <SID>open_type_conf()<CR>
 nnoremap <leader>et :vsplit ~/.todo.txt<CR>
@@ -254,6 +301,11 @@ nnoremap <leader>ac y :Tab /<C-R>"<CR>
 xnoremap <leader>ac y :Tab /<C-R>"<CR>
 xnoremap <leader>ae :Tab /=<CR>
 
+nnoremap ]q :cnext<CR>
+nnoremap [q :cprevious<CR>
+nnoremap ]Q :clast<CR>
+nnoremap [Q :cfirst<CR>
+
 let g:tmux_navigator_no_mappings = 1
 nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
 nnoremap <silent> <C-l> :TmuxNavigateRight<cr>
@@ -269,3 +321,7 @@ noremap <Left> <Nop>
 noremap <Right> <Nop>
 noremap <Up> <Nop>
 noremap <Down> <Nop>
+" nnoremap <leader>t :noautocmd vimgrep /<SID>codetags()/j **/*<CR>:cw<CR>
+nnoremap <leader>tt :call ListTodo()<CR>
+nnoremap <leader>td :call FinishTodo()<CR>
+vnoremap <leader>td :call FinishTodo()<CR>
