@@ -333,6 +333,7 @@ nnoremap <leader>l :ccl<CR>
 nnoremap <leader>s :wincmd r<CR>
 " nnoremap <leader>r :make<CR>
 nnoremap <leader>r :call RunPythonAsync()<CR>
+command! Make exec 'silent make | redraw! | botright copen 8'
 nnoremap <C-j> <C-d>zz
 nnoremap <C-k> <C-u>zz
 nmap <C-O>         <Plug>EnhancedJumpsOlder zz
