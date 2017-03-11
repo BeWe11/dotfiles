@@ -9,7 +9,6 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'flazz/vim-colorschemes'
-" Plug 'altercation/vim-colors-solarized'
 " Plug 'davidhalter/jedi-vim'
 Plug 'Valloric/YouCompleteMe'
 " Plug 'nvie/vim-flake8'
@@ -26,6 +25,8 @@ Plug 'junegunn/goyo.vim'
 Plug 'vim-scripts/TeX-PDF'
 Plug 'godlygeek/tabular'
 Plug 'dbakker/vim-projectroot'
+Plug 'mileszs/ack.vim'
+Plug 'skywind3000/asyncrun.vim'
 
 " Snippets
 Plug 'sirver/ultisnips'
@@ -132,23 +133,69 @@ set colorcolumn=81
 " hi ColorColumn ctermbg=0
 
 
+"------------------------------------------------------------------------------"
+" -------------------------- Setup AsyncRun -----------------------------------"
+"------------------------------------------------------------------------------"
+" " Toogle Quickfix window when AsyncRun starts, but don't focus it
+" augroup MyGroup
+"     autocmd User AsyncRunStart call asyncrun#quickfix_toggle(8, 1)
+" augroup END
+
+let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
+
+function! RunPythonAsync()
+    " AsyncRun sends lines one by one, there multiline messages are broken.
+    " We just read the filename and line, the rest gets printed as text. We
+    " reset the format to its old value so that :make and other commands
+    " get the correct python errorformat again
+    let previous_errorformat = &errorformat
+    setl errorformat=
+        \%A\ \ File\ \"%f\"\\\,\ line\ %l\\\,%m,
+        \%A\ \ File\ \"%f\"\\\,\ line\ %l
+    exec 'AsyncRun! python %'
+    let &errorformat = previous_errorformat
+    botright copen 8
+endfunction
+
+
 " set vim-projectroot root signifiers
 let g:rootmarkers = ['.svn', '.git', 'DONE', '.hg', '.bzr', '_darcs', 'build.xml']
 
-" todo setup, refer to https://www.python.org/dev/peps/pep-0350/
+
+"------------------------------------------------------------------------------"
+"----- todo setup, refer to https://www.python.org/dev/peps/pep-0350/ ---------"
+"------------------------------------------------------------------------------"
 let s:codetags = 'FIXME\|BUG\|NOBUG\|HACK\|NOTE\|IDEA\|TODO\|XXX'
 
+" Make vim highlight the code tags in every file
 augroup HiglightTodo
     autocmd!
     autocmd WinEnter,VimEnter * :silent! call matchadd('Todo', s:codetags, -1)
 augroup END
 
+" " Even though we don't use ack to list todos, this setting will make quickfix
+" " entries fold entries from same files in vimgrep aswell
+" let g:ack_autofold_results = 1
+
 function! ListTodo()
-    let previous_wildignore = &wildignore
-    setlocal wildignore+=DONE
-    exec 'vimgrep /' . s:codetags . '/j ' . ProjectRootGuess() . '/**/*'
-    cw
-    let &wildignore = previous_wildignore
+    if executable('ack')
+        " FIXME: AsyncRun inserts a start and a finish line, try to remove
+        " those, while having another way to determine whether it finished
+        exec 'AsyncRun! ack --ignore-file=is:DONE ' . s:codetags . ' ' . ProjectRootGuess()
+        " exec 'Ack! --ignore-file=is:DONE ' . s:codetags . ' ' . ProjectRootGuess()
+        " botright copen 8
+    else
+        let previous_wildignore = &wildignore
+        setlocal wildignore+=DONE
+        exec  'silent! vimgrep /' . s:codetags . '/j ' . ProjectRootGuess() . '/**/*'
+        let &wildignore = previous_wildignore
+    endif
+    botright copen 8
+endfunction
+
+function! ListTodoCurrentFile()
+    exec 'silent! vimgrep /' . s:codetags . '/j ' . @%
+    botright copen 8
 endfunction
 
 function! s:write_line(line, path)
@@ -284,6 +331,8 @@ nnoremap <leader>j :cn<CR>
 nnoremap <leader>k :cp<CR>
 nnoremap <leader>l :ccl<CR>
 nnoremap <leader>s :wincmd r<CR>
+" nnoremap <leader>r :make<CR>
+nnoremap <leader>r :call RunPythonAsync()<CR>
 nnoremap <C-j> <C-d>zz
 nnoremap <C-k> <C-u>zz
 nmap <C-O>         <Plug>EnhancedJumpsOlder zz
@@ -301,8 +350,10 @@ nnoremap <leader>ac y :Tab /<C-R>"<CR>
 xnoremap <leader>ac y :Tab /<C-R>"<CR>
 xnoremap <leader>ae :Tab /=<CR>
 
-nnoremap ]q :cnext<CR>
-nnoremap [q :cprevious<CR>
+command! Cnext try | cnext | catch | cfirst | catch | endtry
+command! Cprevious try | cprevious | catch | clast | catch | endtry
+nnoremap ]q :Cnext<CR>
+nnoremap [q :Cprevious<CR>
 nnoremap ]Q :clast<CR>
 nnoremap [Q :cfirst<CR>
 
@@ -323,5 +374,6 @@ noremap <Up> <Nop>
 noremap <Down> <Nop>
 " nnoremap <leader>t :noautocmd vimgrep /<SID>codetags()/j **/*<CR>:cw<CR>
 nnoremap <leader>tt :call ListTodo()<CR>
+nnoremap <leader>tc :call ListTodoCurrentFile()<CR>
 nnoremap <leader>td :call FinishTodo()<CR>
 vnoremap <leader>td :call FinishTodo()<CR>
