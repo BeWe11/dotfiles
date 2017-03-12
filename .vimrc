@@ -248,7 +248,7 @@ function! FinishTodo() range
 endfunction
 
 
-function MakeQuickfix()
+function MakeNoEnter()
     " Set cmdheigt two 2 and reset to 1 to avoid the "Press Enter" screen
     set cmdheight=2
     make
@@ -368,7 +368,7 @@ nnoremap <leader>j :cn<CR>
 nnoremap <leader>k :cp<CR>
 nnoremap <leader>l :ccl<CR>
 nnoremap <leader>s :wincmd r<CR>
-nnoremap <leader>r :call MakeQuickfix()<CR>
+nnoremap <leader>r :call MakeNoEnter()<CR>
 nnoremap <C-j> <C-d>zz
 nnoremap <C-k> <C-u>zz
 nmap <C-O>         <Plug>EnhancedJumpsOlder zz
