@@ -132,6 +132,9 @@ set hlsearch
 set colorcolumn=81
 " hi ColorColumn ctermbg=0
 
+" Prevent having two hit enter twice after :make
+set shortmess+=T
+
 
 "------------------------------------------------------------------------------"
 " -------------------------- Setup AsyncRun -----------------------------------"
@@ -143,19 +146,19 @@ set colorcolumn=81
 
 let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
 
-function! RunPythonAsync()
-    " AsyncRun sends lines one by one, there multiline messages are broken.
-    " We just read the filename and line, the rest gets printed as text. We
-    " reset the format to its old value so that :make and other commands
-    " get the correct python errorformat again
-    let previous_errorformat = &errorformat
-    setl errorformat=
-        \%A\ \ File\ \"%f\"\\\,\ line\ %l\\\,%m,
-        \%A\ \ File\ \"%f\"\\\,\ line\ %l
-    exec 'AsyncRun! python %'
-    let &errorformat = previous_errorformat
-    botright copen 8
-endfunction
+" function! RunPythonAsync()
+"     " AsyncRun sends lines one by one, there multiline messages are broken.
+"     " We just read the filename and line, the rest gets printed as text. We
+"     " reset the format to its old value so that :make and other commands
+"     " get the correct python errorformat again
+"     let previous_errorformat = &errorformat
+"     setl errorformat=
+"         \%A\ \ File\ \"%f\"\\\,\ line\ %l\\\,%m,
+"         \%A\ \ File\ \"%f\"\\\,\ line\ %l
+"     exec 'AsyncRun! python %'
+"     let &errorformat = previous_errorformat
+"     botright copen 8
+" endfunction
 
 
 " set vim-projectroot root signifiers
@@ -173,29 +176,52 @@ augroup HiglightTodo
     autocmd WinEnter,VimEnter * :silent! call matchadd('Todo', s:codetags, -1)
 augroup END
 
+" FIXME: Folding doens't work with AsyncRun because results are given one by
+" one. This command stays here for reference, maybe I this will work in the
+" future.
 " " Even though we don't use ack to list todos, this setting will make quickfix
 " " entries fold entries from same files in vimgrep aswell
 " let g:ack_autofold_results = 1
+"
+let g:ack_qhandler = ''
 
-function! ListTodo()
-    if executable('ack')
+function! ListTodo(current, async)
+    if a:current == 1
+        " Using async search for one file would be overkill, just use vimgrep
+        exec 'silent! vimgrep /' . s:codetags . '/j ' . @%
+    else
         " FIXME: AsyncRun inserts a start and a finish line, try to remove
         " those, while having another way to determine whether it finished
-        exec 'AsyncRun! ack --ignore-file=is:DONE ' . s:codetags . ' ' . ProjectRootGuess()
-        " exec 'Ack! --ignore-file=is:DONE ' . s:codetags . ' ' . ProjectRootGuess()
-        " botright copen 8
-    else
-        let previous_wildignore = &wildignore
-        setlocal wildignore+=DONE
-        exec  'silent! vimgrep /' . s:codetags . '/j ' . ProjectRootGuess() . '/**/*'
-        let &wildignore = previous_wildignore
+        if executable('ackk')
+            if a:async == 1
+                exec 'AsyncRun! ack --ignore-file=is:DONE ' . s:codetags . ' ' . ProjectRootGuess()
+            else
+                exec 'silent! Ack! --ignore-file=is:DONE ' . s:codetags . ' ' . ProjectRootGuess()
+            endif
+        else
+            if a:async == 1
+                exec 'AsyncRun! grep -nIr --exclude=DONE --exclude-dir=.git "' . s:codetags . '" ' . ProjectRootGuess() . '/*'
+            else
+                " External grep in vim needs escaped backslashes for multiple patterns
+                let codetags = 'FIXME\\|BUG\\|NOBUG\\|HACK\\|NOTE\\|IDEA\\|TODO\\|XXX'
+                exec 'silent! grep! -nIr --exclude=DONE --exclude-dir=.git "' . codetags . '" ' . ProjectRootGuess() . '/*'
+                redraw!
+            endif
+        endif
     endif
-    botright copen 8
-endfunction
 
-function! ListTodoCurrentFile()
-    exec 'silent! vimgrep /' . s:codetags . '/j ' . @%
-    botright copen 8
+    if a:async == 1
+        " AsyncRun returns lines one by one, the quickfix window never has
+        " valid entries, so we can't check for single entries and we cannot
+        " use cwindow
+        botright copen 8
+    else
+        if len(filter(getqflist(), 'v:val.valid')) == 0
+            echo 'No code tags found.'
+        else
+            botright cw 8
+        endif
+    endif
 endfunction
 
 function! s:write_line(line, path)
@@ -219,6 +245,17 @@ function! FinishTodo() range
     else
         echo 'No DONE file in root directory'
     endif
+endfunction
+
+
+function MakeQuickfix()
+    " Set cmdheigt two 2 and reset to 1 to avoid the "Press Enter" screen
+    set cmdheight=2
+    make
+    if len(filter(getqflist(), 'v:val.valid')) > 1
+        botright cw 8
+    endif
+    set cmdheight=1
 endfunction
 
 
@@ -331,9 +368,7 @@ nnoremap <leader>j :cn<CR>
 nnoremap <leader>k :cp<CR>
 nnoremap <leader>l :ccl<CR>
 nnoremap <leader>s :wincmd r<CR>
-" nnoremap <leader>r :make<CR>
-nnoremap <leader>r :call RunPythonAsync()<CR>
-command! Make exec 'silent make | redraw! | botright copen 8'
+nnoremap <leader>r :call MakeQuickfix()<CR>
 nnoremap <C-j> <C-d>zz
 nnoremap <C-k> <C-u>zz
 nmap <C-O>         <Plug>EnhancedJumpsOlder zz
@@ -373,8 +408,8 @@ noremap <Left> <Nop>
 noremap <Right> <Nop>
 noremap <Up> <Nop>
 noremap <Down> <Nop>
-" nnoremap <leader>t :noautocmd vimgrep /<SID>codetags()/j **/*<CR>:cw<CR>
-nnoremap <leader>tt :call ListTodo()<CR>
-nnoremap <leader>tc :call ListTodoCurrentFile()<CR>
+nnoremap <leader>tt :call ListTodo(0, 0)<CR>
+nnoremap <leader>ta :call ListTodo(0, 1)<CR>
+nnoremap <leader>tc :call ListTodo(1, 0)<CR>
 nnoremap <leader>td :call FinishTodo()<CR>
 vnoremap <leader>td :call FinishTodo()<CR>
