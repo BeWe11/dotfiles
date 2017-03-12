@@ -1,17 +1,15 @@
 call plug#begin('~/.vim/plugged')
-
 Plug 'hdima/python-syntax/'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'kien/ctrlp.vim'
 Plug 'kien/rainbow_parentheses.vim'
-Plug 'vim-airline'
+Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 Plug 'edkolev/tmuxline.vim'
 Plug 'jiangmiao/auto-pairs'
 Plug 'flazz/vim-colorschemes'
 " Plug 'davidhalter/jedi-vim'
 Plug 'Valloric/YouCompleteMe'
-" Plug 'nvie/vim-flake8'
 Plug 'scrooloose/nerdcommenter'
 " Plug 'godlygeek/csapprox'
 Plug 'christoomey/vim-tmux-navigator'
@@ -25,32 +23,36 @@ Plug 'junegunn/goyo.vim'
 Plug 'vim-scripts/TeX-PDF'
 Plug 'godlygeek/tabular'
 Plug 'dbakker/vim-projectroot'
-Plug 'mileszs/ack.vim'
 Plug 'skywind3000/asyncrun.vim'
+Plug 'w0rp/ale'
 
 " Snippets
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
-
 call plug#end()
 
- " longer timeout for ycm
- let g:plug_timeout = 1000
+" longer timeout for ycm
+let g:plug_timeout = 1000
 
 
- " latex settings
- let g:tex_flavor = "latex"
- let g:tex_indent_brace = 0
- let g:tex_noindent_env = ''
+" latex settings
+let g:tex_flavor = "latex"
+let g:tex_indent_brace = 0
+let g:tex_noindent_env = ''
 
- " Autoremove trailing whitespaces
- function! <SID>StripTrailingWhitespaces()
-     let l = line(".")
-     let c = col(".")
-     %s/\s\+$//e
-     call cursor(l, c)
- endfun
- autocmd BufWritePost * :call <SID>StripTrailingWhitespaces()
+" Autoremove trailing whitespaces
+function! <SID>StripTrailingWhitespaces()
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    call cursor(l, c)
+endfun
+
+augroup StripWhitespace
+    autocmd!
+    autocmd BufWritePost * :call <SID>StripTrailingWhitespaces()
+augroup END
+
 
 " Rainbow parantheses
 au VimEnter * RainbowParenthesesToggle
@@ -60,24 +62,24 @@ au Syntax * RainbowParenthesesLoadBraces
 
 
  " Keep CtrlP cache for faster loading times
- let g:ctrlp_clear_cache_on_exit = 0
- let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
+let g:ctrlp_clear_cache_on_exit = 0
+let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
 
 
 " " let g:flake8_show_in_file=1
 " " let g:jedi#popup_on_dot = 0
- let g:ctrlp_show_hidden = 1
- let NERDSpaceDelims = 1
-" let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
+let g:ctrlp_show_hidden = 1
+let NERDSpaceDelims = 1
 
 " Color settings
 set background=dark
 colo solarized
 set t_Co=256
 set t_ut= "fix background redrawing in tmux
+
+" Vim-Airline settings
 let g:airline_powerline_fonts = 1
-" let g:airline_theme='papercolor'
+let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
 let g:airline_theme='solarized'
 
 
@@ -129,36 +131,8 @@ set incsearch
 set hlsearch
 
 " color column
-set colorcolumn=81
+set colorcolumn=80
 " hi ColorColumn ctermbg=0
-
-" Prevent having two hit enter twice after :make
-set shortmess+=T
-
-
-"------------------------------------------------------------------------------"
-" -------------------------- Setup AsyncRun -----------------------------------"
-"------------------------------------------------------------------------------"
-" " Toogle Quickfix window when AsyncRun starts, but don't focus it
-" augroup MyGroup
-"     autocmd User AsyncRunStart call asyncrun#quickfix_toggle(8, 1)
-" augroup END
-
-let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
-
-" function! RunPythonAsync()
-"     " AsyncRun sends lines one by one, there multiline messages are broken.
-"     " We just read the filename and line, the rest gets printed as text. We
-"     " reset the format to its old value so that :make and other commands
-"     " get the correct python errorformat again
-"     let previous_errorformat = &errorformat
-"     setl errorformat=
-"         \%A\ \ File\ \"%f\"\\\,\ line\ %l\\\,%m,
-"         \%A\ \ File\ \"%f\"\\\,\ line\ %l
-"     exec 'AsyncRun! python %'
-"     let &errorformat = previous_errorformat
-"     botright copen 8
-" endfunction
 
 
 " set vim-projectroot root signifiers
@@ -176,52 +150,27 @@ augroup HiglightTodo
     autocmd WinEnter,VimEnter * :silent! call matchadd('Todo', s:codetags, -1)
 augroup END
 
-" FIXME: Folding doens't work with AsyncRun because results are given one by
-" one. This command stays here for reference, maybe I this will work in the
-" future.
-" " Even though we don't use ack to list todos, this setting will make quickfix
-" " entries fold entries from same files in vimgrep aswell
-" let g:ack_autofold_results = 1
-"
-let g:ack_qhandler = ''
+command! -nargs=1 -bang Ack exec 'AsyncRun' . '<bang>' . ' ack ' . <f-args>
+command! -nargs=1 -bang Grep exec 'AsyncRun' . '<bang>' . ' grep ' . <f-args>
 
-function! ListTodo(current, async)
-    if a:current == 1
+function! ListTodo(current)
+    if a:current
         " Using async search for one file would be overkill, just use vimgrep
         exec 'silent! vimgrep /' . s:codetags . '/j ' . @%
+        if len(filter(getqflist(), 'v:val.valid')) == 0
+            echo 'Nothing found.'
+            return
+        endif
     else
         " FIXME: AsyncRun inserts a start and a finish line, try to remove
         " those, while having another way to determine whether it finished
         if executable('ackk')
-            if a:async == 1
-                exec 'AsyncRun! ack --ignore-file=is:DONE ' . s:codetags . ' ' . ProjectRootGuess()
-            else
-                exec 'silent! Ack! --ignore-file=is:DONE ' . s:codetags . ' ' . ProjectRootGuess()
-            endif
+            exec 'Ack! --ignore-file=is:DONE ' . s:codetags . ' ' . ProjectRootGuess()
         else
-            if a:async == 1
-                exec 'AsyncRun! grep -nIr --exclude=DONE --exclude-dir=.git "' . s:codetags . '" ' . ProjectRootGuess() . '/*'
-            else
-                " External grep in vim needs escaped backslashes for multiple patterns
-                let codetags = 'FIXME\\|BUG\\|NOBUG\\|HACK\\|NOTE\\|IDEA\\|TODO\\|XXX'
-                exec 'silent! grep! -nIr --exclude=DONE --exclude-dir=.git "' . codetags . '" ' . ProjectRootGuess() . '/*'
-                redraw!
-            endif
+            exec 'Grep! -nIr --exclude=DONE --exclude-dir=.git "' . s:codetags . '" ' . ProjectRootGuess() . '/*'
         endif
     endif
-
-    if a:async == 1
-        " AsyncRun returns lines one by one, the quickfix window never has
-        " valid entries, so we can't check for single entries and we cannot
-        " use cwindow
-        botright copen 8
-    else
-        if len(filter(getqflist(), 'v:val.valid')) == 0
-            echo 'No code tags found.'
-        else
-            botright cw 8
-        endif
-    endif
+    botright copen 8
 endfunction
 
 function! s:write_line(line, path)
@@ -248,7 +197,7 @@ function! FinishTodo() range
 endfunction
 
 
-function MakeNoEnter()
+function! MakeNoEnter()
     " Set cmdheigt two 2 and reset to 1 to avoid the "Press Enter" screen
     set cmdheight=2
     make
@@ -269,9 +218,9 @@ function! g:UltiSnips_Complete()
     call UltiSnips#ExpandSnippet()
     if g:ulti_expand_res == 0
       if pumvisible()
-	return "\<C-N>"
+        return "\<C-N>"
       else
-	return "\<TAB>"
+        return "\<TAB>"
       endif
     endif
   endif
@@ -319,8 +268,11 @@ function! s:goyo_leave()
   " set scrolloff=5
 endfunction
 
-autocmd! User GoyoEnter nested call <SID>goyo_enter()
-autocmd! User GoyoLeave nested call <SID>goyo_leave()
+augroup Goyo
+    autocmd!
+    autocmd User GoyoEnter nested call <SID>goyo_enter()
+    autocmd User GoyoLeave nested call <SID>goyo_leave()
+augroup END
 
 " switch between solarized dark and light, iterm2 escape codes are wrapped
 " by tmux codes so that tmux sends them to iterm unchanged
@@ -408,8 +360,7 @@ noremap <Left> <Nop>
 noremap <Right> <Nop>
 noremap <Up> <Nop>
 noremap <Down> <Nop>
-nnoremap <leader>tt :call ListTodo(0, 0)<CR>
-nnoremap <leader>ta :call ListTodo(0, 1)<CR>
-nnoremap <leader>tc :call ListTodo(1, 0)<CR>
+nnoremap <leader>tt :call ListTodo(0)<CR>
+nnoremap <leader>tc :call ListTodo(1)<CR>
 nnoremap <leader>td :call FinishTodo()<CR>
 vnoremap <leader>td :call FinishTodo()<CR>
