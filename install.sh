@@ -4,6 +4,7 @@ files=".bash_aliases \
        .bash_profile \
        .tmux.conf \
        .gitconfig \
+       .ctags \
        .vimrc \
        .vim"                       # list of files/folders to symlink in homedir
 

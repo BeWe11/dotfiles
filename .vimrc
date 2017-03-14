@@ -24,7 +24,9 @@ Plug 'vim-scripts/TeX-PDF'
 Plug 'godlygeek/tabular'
 Plug 'dbakker/vim-projectroot'
 Plug 'skywind3000/asyncrun.vim'
-Plug 'w0rp/ale'
+" Plug 'w0rp/ale'
+Plug 'ConradIrwin/vim-bracketed-paste'
+Plug 'ludovicchabant/vim-gutentags'
 
 " Snippets
 Plug 'sirver/ultisnips'
@@ -138,6 +140,8 @@ set colorcolumn=80
 " set vim-projectroot root signifiers
 let g:rootmarkers = ['.svn', '.git', 'DONE', '.hg', '.bzr', '_darcs', 'build.xml']
 
+let g:gutentags_cache_dir = '~/.tags'
+
 
 "------------------------------------------------------------------------------"
 "----- todo setup, refer to https://www.python.org/dev/peps/pep-0350/ ---------"
@@ -164,10 +168,10 @@ function! ListTodo(current)
     else
         " FIXME: AsyncRun inserts a start and a finish line, try to remove
         " those, while having another way to determine whether it finished
-        if executable('ackk')
-            exec 'Ack! --ignore-file=is:DONE ' . s:codetags . ' ' . ProjectRootGuess()
+        if executable('ack')
+            exec 'Ack! --ignore-file=is:DONE --ignore-file=ext:ipynb --ignore-dir=.ipynb_checkpoints ' . s:codetags . ' ' . ProjectRootGuess()
         else
-            exec 'Grep! -nIr --exclude=DONE --exclude-dir=.git "' . s:codetags . '" ' . ProjectRootGuess() . '/*'
+            exec 'Grep! -nIr --exclude=DONE --exclude="*.ipynb" --exclude-dir=.git --exclude-dir=.ipynb_checkpoints "' . s:codetags . '" ' . ProjectRootGuess() . '/*'
         endif
     endif
     botright copen 8
