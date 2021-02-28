@@ -23,7 +23,7 @@ Run install.sh, then run ":PlugInstall" in Vim to install Vim plugins.
 
 ## Setup tmux colors and italics
 
-Add the `tmux-256color` terminfo to the system ncurses, otherwise colors will be of when using system programs like `ls` while using tmux:
+Add the `tmux-256color` terminfo to the system ncurses, otherwise colors will be off when using system programs like `ls` while using tmux:
 
 ```bash
 infocmp -x tmux-256color > xyz
