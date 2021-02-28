@@ -13,10 +13,10 @@ for file in $files; do
     if [[ -e ~/$file && ! -h ~/$file ]]
     then
         if [ ! -d $olddir ]
-     	then
-	    echo "Creating $olddir to backup existing dotfiles in the home folder..."
-	    mkdir -p $olddir
-	    echo "...done!"
+        then
+        echo "Creating $olddir to backup existing dotfiles in the home folder..."
+        mkdir -p $olddir
+        echo "...done!"
         fi
         echo "Moving ~/$file to $olddir/$file..."
         if [ -d $file ]
@@ -25,7 +25,7 @@ for file in $files; do
         else
             mv ~/$file $olddir
         fi
-	echo "...done!"
+    echo "...done!"
     fi
     if [ -h ~/$file ]
     then
