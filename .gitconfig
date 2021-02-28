@@ -3,7 +3,6 @@
      email = Benjamin.Weigang@mailbox.org
 [core]
      editor = vim
-    ; excludesfile = $HOME/.gitignore_global
 [alias]
      st = status
      ci = commit
