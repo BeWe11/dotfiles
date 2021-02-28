@@ -2,7 +2,6 @@ call plug#begin('~/.vim/plugged')
 " IDE stuff
 Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
-Plug 'nvim-lua/diagnostic-nvim'
 Plug 'nvim-lua/lsp-status.nvim'
 " FZF
 Plug '/usr/local/opt/fzf'
@@ -49,12 +48,32 @@ set updatetime=750
 lua <<EOF
 local on_attach_vim = function(client)
   require'completion'.on_attach(client)
-  require'diagnostic'.on_attach(client)
 end
-require'nvim_lsp'.pyls_ms.setup{on_attach=on_attach_vim}
-require'nvim_lsp'.tsserver.setup{on_attach=on_attach_vim}
-require'nvim_lsp'.vuels.setup{on_attach=on_attach_vim}
+require'lspconfig'.pyls_ms.setup{
+    on_attach = on_attach_vim;
+    cmd = { "dotnet", "exec", "/Users/ben/python-language-server/output/bin/Debug/Microsoft.Python.LanguageServer.dll" };
+}
+require'lspconfig'.tsserver.setup{on_attach=on_attach_vim}
+require'lspconfig'.vuels.setup{on_attach=on_attach_vim}
 require'callbacks'
+
+vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
+  vim.lsp.diagnostic.on_publish_diagnostics, {
+    -- This will disable virtual text, like doing:
+    -- let g:diagnostic_enable_virtual_text = 0
+    virtual_text = false,
+
+    -- This is similar to:
+    -- let g:diagnostic_show_sign = 1
+    -- To configure sign display,
+    --  see: ":help vim.lsp.diagnostic.set_signs()"
+    signs = true,
+
+    -- This is similar to:
+    -- "let g:diagnostic_insert_delay = 1"
+    update_in_insert = false,
+  }
+)
 EOF
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
@@ -65,12 +84,11 @@ set completeopt=menuone,noinsert,noselect
 set shortmess+=c
 let g:completion_trigger_on_delete = 1
 let g:completion_enable_snippet = 'UltiSnips'
-let g:diagnostic_enable_virtual_text = 0
 call sign_define("LspDiagnosticsErrorSign", {"text" : "", "texthl" : "LspDiagnosticsError"})
 call sign_define("LspDiagnosticsWarningSign", {"text" : "", "texthl" : "LspDiagnosticsWarning"})
 call sign_define("LspDiagnosticsInformationSign", {"text" : "", "texthl" : "LspDiagnosticsInformation"})
 call sign_define("LspDiagnosticsHintSign", {"text" : "", "texthl" : "LspDiagnosticsHint"})
-autocmd CursorHold * lua vim.lsp.util.show_line_diagnostics()
+autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <c-]>    <cmd>lua vim.lsp.buf.implementation()<CR>
@@ -87,7 +105,6 @@ imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
 let g:nv_search_paths = ['~/notes', './notes.md']
 let g:nv_create_note_window = 'tabedit'
 let g:nv_use_short_pathnames = 1
-let g:diagnostic_insert_delay = 1
 
 " Activate python-syntax extra highlighting
 let g:python_highlight_all = 1
