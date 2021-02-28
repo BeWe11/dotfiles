@@ -1,103 +1,196 @@
 call plug#begin('~/.vim/plugged')
-Plug 'hdima/python-syntax/'
-Plug 'Vimjas/vim-python-pep8-indent'
-Plug 'kien/ctrlp.vim'
-Plug 'kien/rainbow_parentheses.vim'
+" IDE stuff
+Plug 'neovim/nvim-lspconfig'
+Plug 'nvim-lua/completion-nvim'
+Plug 'nvim-lua/diagnostic-nvim'
+Plug 'nvim-lua/lsp-status.nvim'
+" FZF
+Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf.vim'
+Plug 'Alok/notational-fzf-vim'
+" Status line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
+" Tmux integration
 Plug 'edkolev/tmuxline.vim'
-Plug 'jiangmiao/auto-pairs'
-Plug 'flazz/vim-colorschemes'
-" Plug 'davidhalter/jedi-vim'
-Plug 'Valloric/YouCompleteMe'
-Plug 'scrooloose/nerdcommenter'
-" Plug 'godlygeek/csapprox'
 Plug 'christoomey/vim-tmux-navigator'
+" Editor
+Plug 'kien/rainbow_parentheses.vim'
+Plug 'jiangmiao/auto-pairs'
+Plug 'scrooloose/nerdcommenter'
 Plug 'tpope/vim-surround'
 Plug 'michaeljsmith/vim-indent-object'
 Plug 'nelstrom/vim-visual-star-search'
 Plug 'vim-scripts/ingo-library'
 Plug 'vim-scripts/EnhancedJumps'
 Plug 'justinmk/vim-sneak'
-Plug 'junegunn/goyo.vim'
-Plug 'vim-scripts/TeX-PDF'
 Plug 'godlygeek/tabular'
-Plug 'dbakker/vim-projectroot'
-Plug 'skywind3000/asyncrun.vim'
-" Plug 'w0rp/ale'
 Plug 'ConradIrwin/vim-bracketed-paste'
-Plug 'ludovicchabant/vim-gutentags'
-
+Plug 'tpope/vim-unimpaired'
+Plug 'preservim/nerdtree'
+Plug 'alvan/vim-closetag'
+" Extras
+Plug 'sbdchd/neoformat'
+Plug 'tpope/vim-fugitive'
+Plug 'chriskempson/base16-vim'
+" Languages
+Plug 'posva/vim-vue'
+Plug 'leafgarland/typescript-vim'
+Plug 'vim-python/python-syntax'
+Plug 'Vimjas/vim-python-pep8-indent'
+Plug 'derekwyatt/vim-scala'
 " Snippets
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
 call plug#end()
 
-" longer timeout for ycm
-let g:plug_timeout = 1000
+" completion
+set updatetime=750
+lua <<EOF
+local on_attach_vim = function(client)
+  require'completion'.on_attach(client)
+  require'diagnostic'.on_attach(client)
+end
+require'nvim_lsp'.pyls_ms.setup{on_attach=on_attach_vim}
+require'nvim_lsp'.tsserver.setup{on_attach=on_attach_vim}
+require'nvim_lsp'.vuels.setup{on_attach=on_attach_vim}
+require'callbacks'
+EOF
+" Use <Tab> and <S-Tab> to navigate through popup menu
+inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" Set completeopt to have a better completion experience
+set completeopt=menuone,noinsert,noselect
+" Avoid showing message extra message when using completion
+set shortmess+=c
+let g:completion_trigger_on_delete = 1
+let g:completion_enable_snippet = 'UltiSnips'
+let g:diagnostic_enable_virtual_text = 0
+call sign_define("LspDiagnosticsErrorSign", {"text" : "", "texthl" : "LspDiagnosticsError"})
+call sign_define("LspDiagnosticsWarningSign", {"text" : "", "texthl" : "LspDiagnosticsWarning"})
+call sign_define("LspDiagnosticsInformationSign", {"text" : "", "texthl" : "LspDiagnosticsInformation"})
+call sign_define("LspDiagnosticsHintSign", {"text" : "", "texthl" : "LspDiagnosticsHint"})
+autocmd CursorHold * lua vim.lsp.util.show_line_diagnostics()
+nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
+nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
+nnoremap <silent> <c-]>    <cmd>lua vim.lsp.buf.implementation()<CR>
+nnoremap <silent> <c-k> <cmd>lua vim.lsp.buf.signature_help()<CR>
+nnoremap <silent> 1gD   <cmd>lua vim.lsp.buf.type_definition()<CR>
+nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
+nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
+nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
+nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
+let g:completion_confirm_key = ""
+imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
+                 \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
 
+let g:nv_search_paths = ['~/notes', './notes.md']
+let g:nv_create_note_window = 'tabedit'
+let g:nv_use_short_pathnames = 1
+let g:diagnostic_insert_delay = 1
+
+" Activate python-syntax extra highlighting
+let g:python_highlight_all = 1
+
+
+" Use neovim conda environment for neovim internal python
+let g:python3_host_prog = '/Users/ben/miniconda3/envs/neovim/bin/python'
 
 " latex settings
 let g:tex_flavor = "latex"
 let g:tex_indent_brace = 0
 let g:tex_noindent_env = ''
 
-" Autoremove trailing whitespaces
-function! <SID>StripTrailingWhitespaces()
-    let l = line(".")
-    let c = col(".")
-    %s/\s\+$//e
-    call cursor(l, c)
-endfun
-
-augroup StripWhitespace
-    autocmd!
-    autocmd BufWritePost * :call <SID>StripTrailingWhitespaces()
-augroup END
-
-
-" Rainbow parantheses
+" Activate rainbow parantheses
 au VimEnter * RainbowParenthesesToggle
 au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
-
- " Keep CtrlP cache for faster loading times
-let g:ctrlp_clear_cache_on_exit = 0
-let g:ctrlp_cache_dir = $HOME . '/.cache/ctrlp'
-
-
-" " let g:flake8_show_in_file=1
-" " let g:jedi#popup_on_dot = 0
-let g:ctrlp_show_hidden = 1
 let NERDSpaceDelims = 1
 
 " Color settings
-set background=dark
-colo solarized
-set t_Co=256
-set t_ut= "fix background redrawing in tmux
+function! SetBackground()
+    " let darkmode=!defaults read -g AppleInterfaceStyle
+    let darkmode=system('defaults read -g AppleInterfaceStyle')[:-2]
+    if darkmode == 'Dark'
+        let &background='dark'
+        silent !kitty @ --to "unix:/tmp/mykitty" set-colors "/Users/ben/.config/kitty/kitty_solarized_dark.conf"
+    else
+        let &background='light'
+        silent !kitty @ --to "unix:/tmp/mykitty" set-colors "/Users/ben/.config/kitty/kitty_solarized_light.conf"
+    endif
+endfunction
+" :call SetBackground()
+let g:solarized_extra_hi_groups=1
+if exists('+termguicolors')
+  let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+  let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+  set termguicolors
+endif
+" set t_ut= "fix background redrawing in tmux
+let base16colorspace=256
+colo base16-ocean
+
 
 " Vim-Airline settings
+function! LspStatus() abort
+    if luaeval('#vim.lsp.buf_get_clients() > 0')
+        return luaeval("require('lsp-status').status()")
+    endif
+    return ''
+endfunction
 let g:airline_powerline_fonts = 1
-let g:airline_section_error = airline#section#create_right(['%{g:asyncrun_status}'])
-let g:airline_theme='solarized'
+call airline#parts#define_function('lsp', 'LspStatus')
+let g:airline_section_y = airline#section#create_right(['lsp'])
 
+" Ale options
+let g:ale_set_quickfix = 1
+let g:ale_set_loclist = 0
+
+" Neoformat options
+let g:neoformat_python_black = {
+                \ 'exe': 'black',
+                \ 'stdin': 1,
+                \ 'args': ['-q', '-', '--line-length', '79'],
+                \ }
+let g:neoformat_enabled_python = ['isort', 'black']
+let g:neoformat_enabled_javascript = ['prettier']
+let g:neoformat_enabled_typescript = ['prettier']
+let g:neoformat_enabled_html = ['prettier']
+let g:neoformat_cpp_clangformat = {
+            \ 'exe': 'clang-format',
+            \ 'args': ['-assume-filename=file.cpp', '-style=google'],
+            \ 'stdin': 1,
+            \ }
+let g:neoformat_run_all_formatters = 1
+
+" NERDTree settings
+let NERDTreeMapOpenVSplit='v'
+
+" vim-closetag settings
+let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.vue'
+
+" Split settings
+set splitright
+set fillchars+=vert:\ |
+autocmd ColorScheme * highlight VertSplit cterm=NONE ctermfg=Green ctermbg=NONE
 
 " Misc
 set nocompatible
 syntax on
+highlight Comment gui=italic cterm=italic
 set lazyredraw
 set ttyfast
 set wildmenu
 set laststatus=2
 filetype plugin indent on
 au BufRead,BufNewFile,BufFilePre *.mmd set filetype=markdown
-" set autoindent
 set showmatch
-":match Error /\s\+$/
 set backspace=indent,eol,start
+set number
+
+set mouse=a
 
 
 " Autosave
@@ -106,9 +199,6 @@ set autowrite
 
 " Keep the cursor on the same column
 set nostartofline
-
-" use old regexp engine to fix lag with cursorline
-" set re=1
 
 " set cursorline
 set encoding=utf8
@@ -124,7 +214,6 @@ set tabstop=4
 set shiftwidth=4
 " set smarttab
 
-set number
 set timeoutlen=1000
 set ttimeoutlen=0
 
@@ -134,7 +223,9 @@ set hlsearch
 
 " color column
 set colorcolumn=80
-" hi ColorColumn ctermbg=0
+set textwidth=79
+set nowrap           " do not automatically wrap on load
+set formatoptions-=t " do not automatically wrap text when typing
 
 
 " set vim-projectroot root signifiers
@@ -245,58 +336,60 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
-let g:ycm_key_list_select_completion = ['<Down>']
-let g:ycm_key_list_previous_completion = ['<Up>']
-
-" Goyo settings
-let g:goyo_width=80
-let g:goyo_height=100
-
-function! s:goyo_enter()
-  " setlocal formatoptions=ant
-  set textwidth=80
-
-  " set colorcolumn=0
-  " hi ColorColumn ctermbg=0
-  silent !tmux set status off
-  " set noshowmode
-  " set noshowcmd
-endfunction
-
-function! s:goyo_leave()
-  set textwidth=0
-  " setlocal formatoptions=croql
-  silent !tmux set status on
-  " set showmode
-  " set showcmd
-  " set scrolloff=5
-endfunction
-
-augroup Goyo
-    autocmd!
-    autocmd User GoyoEnter nested call <SID>goyo_enter()
-    autocmd User GoyoLeave nested call <SID>goyo_leave()
-augroup END
-
 " switch between solarized dark and light, iterm2 escape codes are wrapped
 " by tmux codes so that tmux sends them to iterm unchanged
 function! s:SwitchSolarized()
     if &background == 'dark'
       let &background = 'light'
-      silent !echo -e "\033Ptmux;\033\033]50;SetProfile=solarized_light\a\033\\"
+      silent !kitty @ --to "unix:/tmp/mykitty" set-colors "/Users/ben/.config/kitty/kitty_solarized_light.conf"
+      silent !osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to False'
     elseif &background == 'light'
       let &background = 'dark'
-      silent !echo -e "\033Ptmux;\033\033]50;SetProfile=solarized_dark\a\033\\"
+      silent !kitty @ --to "unix:/tmp/mykitty" set-colors "/Users/ben/.config/kitty/kitty_solarized_dark.conf"
+      silent !osascript -e 'tell app "System Events" to tell appearance preferences to set dark mode to True'
+
     endif
 endfunction
 map <silent> <F6> :call <SID>SwitchSolarized()<CR>
 
+" use ripgrep instead of ag in fzf
+" Using colors in interactive mode will slow down vim tremendously, there we
+" set colors of for 'Rg'. We define another 'Find' function with colors that is
+" supposed to be called with a starting query
+command! -bang -nargs=* Rg
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=never '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('right:50%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+command! -bang -nargs=* Find
+  \ call fzf#vim#grep(
+  \   'rg --column --line-number --no-heading --color=always '.shellescape(<q-args>), 1,
+  \   <bang>0 ? fzf#vim#with_preview('right:50%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+" Redefine fzf functions to use preview windows in vertical split when
+" fullscreen ist activated
+command! -bang -nargs=? -complete=dir Files
+  \ call fzf#vim#files(
+  \   <q-args>,
+  \   <bang>0 ? fzf#vim#with_preview('right:50%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+command! -bang -nargs=? -complete=dir GFiles
+  \ call fzf#vim#gitfiles(
+  \   <q-args>,
+  \   <bang>0 ? fzf#vim#with_preview('right:50%')
+  \           : fzf#vim#with_preview('right:50%:hidden', '?'),
+  \   <bang>0)
+
+
 " vim-sneak EasyMotion mode
 let g:sneak#s_next = 1
 let g:sneak#streak = 1
-
-" youcompleteme settings
-let g:ycm_autoclose_preview_window_after_insertion = 1
 
 " helper function for editing filetype specific config files
 function! <SID>open_type_conf()
@@ -307,22 +400,31 @@ function! <SID>source_type_conf()
   execute 'source '.'~/.vim/ftplugin/'.&filetype.'.vim'
 endfunction
 
+function! s:init()
+    nmap [q <Plug>unimpairedQPreviouszz
+    nmap ]q <Plug>unimpairedQNextzz
+endfunction
+augroup vimrc_enter
+    au!
+    au VimEnter * call s:init()
+augroup END
+
 " key remaps
 let mapleader = ";"
-set pastetoggle=<F9>
-nnoremap <F10> :Goyo<CR>
-nmap <leader>bb :CtrlPBuffer<CR>
+" set pastetoggle=<F9>
+" nnoremap <F10> :Goyo<CR>
+" nmap <leader>bb :CtrlPBuffer<CR>
 nmap <leader>bj :bnext<CR>
 nmap <leader>bk :bprevious<CR>
 nnoremap <leader>bw :bp\|bd #<CR>
-nnoremap <leader>ev :vsplit $MYVIMRC<CR>
+nnoremap <leader>ev :vsplit ~/.vimrc<CR>
 nnoremap <leader>ef :call <SID>open_type_conf()<CR>
 nnoremap <leader>et :vsplit ~/.todo.txt<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 nnoremap <leader>sf :call <SID>source_type_conf()<CR>
-nnoremap <leader>j :cn<CR>
-nnoremap <leader>k :cp<CR>
-nnoremap <leader>l :ccl<CR>
+" nnoremap <leader>j :cn<CR>
+" nnoremap <leader>k :cp<CR>
+" nnoremap <leader>l :ccl<CR>
 nnoremap <leader>s :wincmd r<CR>
 nnoremap <leader>r :call MakeNoEnter()<CR>
 nnoremap <C-j> <C-d>zz
@@ -342,12 +444,12 @@ nnoremap <leader>ac y :Tab /<C-R>"<CR>
 xnoremap <leader>ac y :Tab /<C-R>"<CR>
 xnoremap <leader>ae :Tab /=<CR>
 
-command! Cnext try | cnext | catch | cfirst | catch | endtry
-command! Cprevious try | cprevious | catch | clast | catch | endtry
-nnoremap ]q :Cnext<CR>
-nnoremap [q :Cprevious<CR>
-nnoremap ]Q :clast<CR>
-nnoremap [Q :cfirst<CR>
+" command! Cnext try | cnext | catch | cfirst | catch | endtry
+" command! Cprevious try | cprevious | catch | clast | catch | endtry
+" nnoremap ]q :Cnext<CR>
+" nnoremap [q :Cprevious<CR>
+" nnoremap ]Q :clast<CR>
+" nnoremap [Q :cfirst<CR>
 
 let g:tmux_navigator_no_mappings = 1
 nnoremap <silent> <C-h> :TmuxNavigateLeft<cr>
@@ -364,7 +466,108 @@ noremap <Left> <Nop>
 noremap <Right> <Nop>
 noremap <Up> <Nop>
 noremap <Down> <Nop>
+
 nnoremap <leader>tt :call ListTodo(0)<CR>
 nnoremap <leader>tc :call ListTodo(1)<CR>
 nnoremap <leader>td :call FinishTodo()<CR>
 vnoremap <leader>td :call FinishTodo()<CR>
+
+" FZF mappings
+nnoremap <leader>ff :Files<CR>
+nnoremap <leader>fF :Files!<CR>
+nnoremap <leader>fgf :GFiles<CR>
+nnoremap <leader>fgF :GFiles!<CR>
+nnoremap <leader>fbb :Buffers<CR>
+nnoremap <leader>fbB :Buffers!<CR>
+nnoremap <leader>fi :Rg<CR>
+nnoremap <leader>fI :Rg!<CR>
+nnoremap <leader>fl :Lines<CR>
+nnoremap <leader>fL :Lines!<CR>
+nnoremap <leader>fbl :BLines<CR>
+nnoremap <leader>fbL :BLines!<CR>
+nnoremap <leader>fc :Commits<CR>
+nnoremap <leader>fC :Commits!<CR>
+nnoremap <leader>fbc :BCommits<CR>
+nnoremap <leader>fbC :BCommits!<CR>
+vnoremap <leader>f y :Find <C-R>"<CR>
+vnoremap <leader>F y :Find! <C-R>"<CR>
+nnoremap <leader>fn :NERDTreeToggle<CR>
+
+" fugitive mappings
+nnoremap <leader>ge :Gedit<CR>
+nnoremap <leader>gE :Gvsplit<CR>
+nnoremap <leader>gd :Gvdiff<CR>
+nnoremap <leader>gD :Gvdiff HEAD^<CR>
+nnoremap <leader>gs :Gstatus<CR>
+nnoremap <leader>gS :Gstatus<CR><C-w>T
+nnoremap <leader>gl :silent! Glog<CR>
+vnoremap <leader>gb :Gblame<CR>
+
+function! FormatFile()
+    let save_pos = getpos(".")
+    exec 'Neoformat'
+    call setpos('.', save_pos)
+endfunction
+nnoremap <leader>F :call FormatFile()<CR>
+
+nnoremap [c [czz
+nnoremap ]c ]czz
+nmap <silent> [t <Plug>(ale_previous_wrap)
+nmap <silent> ]t <Plug>(ale_next_wrap)
+
+" nerdcommenter, taken from https://gist.github.com/xream/c474a1adffeb6f70daa6a7ddc22386e0
+" This allows different comment styles in vue files, where html and javascript
+" is mixed in a single file.
+imap <leader>ci <SPACE><BS><ESC>:call Comment('Insert')<cr>
+map <leader>ca :call Comment('AltDelims')<cr>
+xmap <leader>c$ :call Comment('ToEOL', 'x')<cr>
+nmap <leader>c$ :call Comment('ToEOL', 'n')<cr>
+xmap <leader>cA :call Comment('Append', 'x')<cr>
+nmap <leader>cA :call Comment('Append', 'n')<cr>
+xmap <leader>cs :call Comment('Sexy', 'x')<cr>
+nmap <leader>cs :call Comment('Sexy', 'n')<cr>
+xmap <leader>ci :call Comment('Invert', 'x')<cr>
+nmap <leader>ci :call Comment('Invert', 'n')<cr>
+xmap <leader>cm :call Comment('Minimal', 'x')<cr>
+nmap <leader>cm :call Comment('Minimal', 'n')<cr>
+xnoremap <leader>c<space> :call Comment('Toggle', 'x')<CR>
+nnoremap <leader>c<space> :call Comment('Toggle', 'n')<CR>
+xmap <leader>cl :call Comment('AlignLeft', 'x')<cr>
+nmap <leader>cl :call Comment('AlignLeft', 'n')<cr>
+xmap <leader>cb :call Comment('AlignBoth', 'x')<cr>
+nmap <leader>cb :call Comment('AlignBoth', 'n')<cr>
+xmap <leader>cc :call Comment('Comment', 'x')<cr>
+nmap <leader>cc :call Comment('Comment', 'n')<cr>
+xmap <leader>cn :call Comment('Nested', 'x')<cr>
+nmap <leader>cn :call Comment('Nested', 'n')<cr>
+xmap <leader>cu :call Comment('Uncomment', 'x')<cr>
+nmap <leader>cu :call Comment('Uncomment', 'n')<cr>
+xmap <leader>cy :call Comment('Yank', 'x')<cr>
+nmap <leader>cy :call Comment('Yank', 'n')<cr>
+let g:NERDCreateDefaultMappings=0
+let g:NERDSpaceDelims=1
+let g:NERDCustomDelimiters = {'pug': { 'left': '//-', 'leftAlt': '//' }}
+function! Comment(...) range
+  let mode = a:0
+  let type = a:1
+  let ft = &ft
+  let stack = synstack(line('.'), col('.'))
+  if ft == 'vue'
+    if len(stack) > 0
+      let syn = synIDattr((stack)[0], 'name')
+      if len(syn) > 0
+        " let syn = substitute(tolower(syn), 'vuetemplate', '', '')
+        let syn = tolower(syn)
+        exe 'setf '.syn
+      endif
+    endif
+  endif
+  if type == 'AltDelims'
+    exe "normal \<plug>NERDCommenterAltDelims"
+  elseif type == 'Insert'
+    call NERDComment('i', "insert")
+  else
+    exe 'silent '.a:firstline.','.a:lastline.'call NERDComment(mode, type)'
+  endif
+  exe "setf ".ft
+endfunction

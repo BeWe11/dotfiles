@@ -3,6 +3,8 @@
      email = Benjamin.Weigang@mailbox.org
 [core]
      editor = vim
+	excludesfile = /Users/ben/.gitignore
+    ; excludesfile = $HOME/.gitignore_global
 [alias]
      st = status
      ci = commit
@@ -16,6 +18,7 @@
      pu = push -u origin master
      serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
      up = "!git remote update -p; git merge --ff-only @{u}"
+     mg = merge --no-ff
 [color]
     ui = true
 [push]

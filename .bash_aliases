@@ -21,6 +21,9 @@ alias rd='rmdir'
 alias less='less -R'
 alias tm='tmux new-window'
 alias vimpure='vim --noplugin -u /dev/null -n'
+alias vim='nvim'
+alias yta='youtube-dl -x -f bestaudio --prefer-free-formats -i --output "%(title)s.%(ext)s"'
+alias ytv='youtube-dl -f bestvideo+bestaudio --prefer-free-formats -i --output "%(title)s.%(ext)s"'
 
 if [[ $platform == 'linux' ]]; then
    alias ls='ls --color=always -h'
@@ -30,3 +33,10 @@ elif [[ $platform == 'osx' ]]; then
 fi
 
 alias g++='g++ --std=c++11'
+
+rgf() {
+    rg -g "$1" --files
+}
+
+function copypath { realpath "$1" | pbcopy; }
+export -f copypath
