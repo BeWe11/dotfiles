@@ -6,7 +6,6 @@ Plug 'nvim-lua/lsp-status.nvim'
 " FZF
 Plug '/usr/local/opt/fzf'
 Plug 'junegunn/fzf.vim'
-Plug 'Alok/notational-fzf-vim'
 " Status line
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -101,10 +100,6 @@ nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
 let g:completion_confirm_key = ""
 imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
                  \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
-
-let g:nv_search_paths = ['~/notes', './notes.md']
-let g:nv_create_note_window = 'tabedit'
-let g:nv_use_short_pathnames = 1
 
 " Activate python-syntax extra highlighting
 let g:python_highlight_all = 1
