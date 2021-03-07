@@ -2,7 +2,8 @@
 
 ## Dotfiles
 
-- Run `./install.sh` from this repo to create symlinks from the dotfiles in this repo to the home directory
+- Clone this repo into your homefolder and `cd` into it
+- Run `./install.sh` to create symlinks from the dotfiles in this repo to your home directory, backups of your old dotfiles will be placed into `~/dotfiles_old`
 
 ## Terminal
 
