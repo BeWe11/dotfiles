@@ -3,6 +3,7 @@ olddir=~/dotfiles_old              # old dotfiles backup directory
 files=".bash_aliases \
        .bash_profile \
        .bashrc \
+       .config/nvim \
        .gitconfig \
        .tmux.conf \
        .vimrc \
@@ -32,6 +33,7 @@ for file in $files; do
         echo "Symlink from ~/$file to $dir/$file already exists!"
     else
         echo "Creating symlink from ~/$file to $dir/$file..."
+        mkdir -p `dirname $dir/$file`
         ln -s $dir/$file ~/$file
         echo "...done!"
     fi
