@@ -154,7 +154,7 @@ function! LspStatus() abort
 endfunction
 let g:airline_powerline_fonts = 1
 call airline#parts#define_function('lsp', 'LspStatus')
-let g:airline_section_y = airline#section#create_right(['lsp'])
+let g:airline_section_y = airline#section#create_right(['ffenc', 'lsp'])
 
 " Ale options
 let g:ale_set_quickfix = 1
