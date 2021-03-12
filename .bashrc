@@ -18,17 +18,6 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-# In every new tmux pane, we want to automatically load the conda env that was
-# active before starting tmux. We need to save the current CONDA_DEFAULT_ENV
-# in a temp variable because the conda.sh init script sets the env to 'base'
-if [[ -n "$TMUX" ]]; then
-    if [[ -n "$CONDA_DEFAULT_ENV" ]]; then
-        # We first deactivate the environment, otherwise it will not load
-        # correctly
-        env=$CONDA_DEFAULT_ENV
-    fi
-fi
-
 # >>> conda initialize >>>
 # !! Contents within this block are managed by 'conda init' !!
 __conda_setup="$('/Users/ben/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
@@ -43,11 +32,6 @@ else
 fi
 unset __conda_setup
 # <<< conda initialize <<<
-
-if [[ -n "$env" ]]; then
-    conda deactivate
-    conda activate $env
-fi
 
 export HISTFILESIZE=
 export HISTSIZE=
