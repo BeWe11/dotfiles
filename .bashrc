@@ -57,11 +57,6 @@ export HISTCONTROL=ignoredups:erasedups
 shopt -s histappend
 export PROMPT_COMMAND="history -a; history -c; history -r; $PROMPT_COMMAND"
 
-# Set virtual env variable to conda prefix so that jedi-vim can load the
-# correct env. This becomes obsolete as soon as issue
-# https://github.com/davidhalter/jedi-vim/issues/907 is resolved
-export VIRTUAL_ENV=$CONDA_PREFIX
-
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f '/Users/ben/google-cloud-sdk/path.bash.inc' ]; then . '/Users/ben/google-cloud-sdk/path.bash.inc'; fi
 
