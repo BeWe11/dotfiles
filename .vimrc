@@ -48,12 +48,30 @@ lua <<EOF
 local on_attach_vim = function(client)
   require'completion'.on_attach(client)
 end
+require'lspconfig'.tsserver.setup{on_attach=on_attach_vim}
+require'lspconfig'.vuels.setup{on_attach=on_attach_vim}
+require'lspconfig'.efm.setup {
+    filetypes = {"python"},
+    init_options = {documentFormatting = true, codeAction = true},
+    settings = {
+        rootMarkers = {".git/"},
+        languages = {
+            python = {
+                {
+                    lintCommand = "flake8 --stdin-display-name ${INPUT} -",
+                    lintStdin = true,
+                    lintIgnoreExitCode = true,
+                    lintFormats = {"%f:%l:%c: %m"}
+                }
+            }
+        }
+    },
+    on_attach=on_attach_vim
+}
 require'lspconfig'.pyls_ms.setup{
     on_attach = on_attach_vim;
     cmd = { "dotnet", "exec", "/Users/ben/python-language-server/output/bin/Debug/Microsoft.Python.LanguageServer.dll" };
 }
-require'lspconfig'.tsserver.setup{on_attach=on_attach_vim}
-require'lspconfig'.vuels.setup{on_attach=on_attach_vim}
 require'callbacks'
 
 vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
