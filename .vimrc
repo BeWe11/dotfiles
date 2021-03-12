@@ -164,7 +164,7 @@ let g:ale_set_loclist = 0
 let g:neoformat_python_black = {
                 \ 'exe': 'black',
                 \ 'stdin': 1,
-                \ 'args': ['-q', '-', '--line-length', '79'],
+                \ 'args': ['-q', '-'],
                 \ }
 let g:neoformat_enabled_python = ['isort', 'black']
 let g:neoformat_enabled_javascript = ['prettier']
