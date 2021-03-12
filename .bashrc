@@ -63,14 +63,6 @@ if [ -f '/Users/ben/google-cloud-sdk/path.bash.inc' ]; then . '/Users/ben/google
 # The next line enables shell command completion for gcloud.
 if [ -f '/Users/ben/google-cloud-sdk/completion.bash.inc' ]; then . '/Users/ben/google-cloud-sdk/completion.bash.inc'; fi
 
-# # Set colorscheme depending on whether dark mode is active
-# darkmode=$(defaults read -g AppleInterfaceStyle 2> /dev/null)
-# if [ "$darkmode" = 'Dark' ]; then
-#     kitty @ --to "unix:/tmp/mykitty" set-colors "/Users/ben/.config/kitty/kitty_solarized_dark.conf" 
-# else
-#     kitty @ --to "unix:/tmp/mykitty" set-colors "/Users/ben/.config/kitty/kitty_solarized_light.conf" 
-# fi
-
 # Git branch in prompt.
 parse_git_branch() {
   git branch 2> /dev/null | sed -e '/^[^*]/d' -e 's/* \(.*\)/ (\1)/'
