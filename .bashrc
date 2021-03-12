@@ -18,21 +18,6 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
 
-# >>> conda initialize >>>
-# !! Contents within this block are managed by 'conda init' !!
-__conda_setup="$('/Users/ben/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
-if [ $? -eq 0 ]; then
-    eval "$__conda_setup"
-else
-    if [ -f "/Users/ben/miniconda3/etc/profile.d/conda.sh" ]; then
-        . "/Users/ben/miniconda3/etc/profile.d/conda.sh"
-    else
-        export PATH="/Users/ben/miniconda3/bin:$PATH"
-    fi
-fi
-unset __conda_setup
-# <<< conda initialize <<<
-
 export HISTFILESIZE=
 export HISTSIZE=
 export HISTTIMEFORMAT="[%F %T] "
@@ -56,3 +41,22 @@ export PS1="\u@\h \W\[\033[32m\]\$(parse_git_branch)\[\033[00m\] $ "
 # Setup GPG
 GPG_TTY=$(tty)
 export GPG_TTY
+
+# >>> conda initialize >>>
+# !! Contents within this block are managed by 'conda init' !!
+__conda_setup="$('/Users/ben/miniconda3/bin/conda' 'shell.bash' 'hook' 2> /dev/null)"
+if [ $? -eq 0 ]; then
+    eval "$__conda_setup"
+else
+    if [ -f "/Users/ben/miniconda3/etc/profile.d/conda.sh" ]; then
+        . "/Users/ben/miniconda3/etc/profile.d/conda.sh"
+    else
+        export PATH="/Users/ben/miniconda3/bin:$PATH"
+    fi
+fi
+unset __conda_setup
+# <<< conda initialize <<<
+
+# Setup Poetry and pyenv
+export PATH="$HOME/.poetry/bin:$PATH"
+eval "$(pyenv init -)"

@@ -30,8 +30,10 @@ rm tmux-256color
 ## Python
 
 - Download and install [miniconda3](https://docs.conda.io/en/latest/miniconda.html)
+- Download and install [pyenv](https://github.com/pyenv/pyenv) with `brew install pyenv`
+- Run `pyenv install 3.9.1` and `pyenv global 3.9.1` to replace the default python2 with python3.9.1
 
-- Run `pip install black isort` to allow basic autoformatting without activating an environment
+- Run `pip install black isort flake8` to allow basic autoformatting and linting without activating an environment
 
 ## Vim
 
@@ -41,9 +43,7 @@ rm tmux-256color
 
 - Create a neovim conda env with
 ```bash
-conda create -n neovim --python=3.8`
-conda activate neovim
-pip install pynvim
+conda create -n neovim python=3.9 pynvim`
 ```
 
 - Install Language Servers:
