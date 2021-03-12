@@ -83,10 +83,10 @@ set completeopt=menuone,noinsert,noselect
 set shortmess+=c
 let g:completion_trigger_on_delete = 1
 let g:completion_enable_snippet = 'UltiSnips'
-call sign_define("LspDiagnosticsErrorSign", {"text" : "", "texthl" : "LspDiagnosticsError"})
-call sign_define("LspDiagnosticsWarningSign", {"text" : "", "texthl" : "LspDiagnosticsWarning"})
-call sign_define("LspDiagnosticsInformationSign", {"text" : "", "texthl" : "LspDiagnosticsInformation"})
-call sign_define("LspDiagnosticsHintSign", {"text" : "", "texthl" : "LspDiagnosticsHint"})
+call sign_define("LspDiagnosticsSignError", {"text" : "", "texthl" : "LspDiagnosticsDefaultError"})
+call sign_define("LspDiagnosticsSignWarning", {"text" : "", "texthl" : "LspDiagnosticsDefaultWarning"})
+call sign_define("LspDiagnosticsSignInformation", {"text" : "", "texthl" : "LspDiagnosticsDefaultInformation"})
+call sign_define("LspDiagnosticsSignHint", {"text" : "", "texthl" : "LspDiagnosticsDefaultHint"})
 autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
