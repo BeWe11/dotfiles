@@ -56,3 +56,13 @@ conda create -n neovim python=3.9 pynvim`
 
 - In `Keyboard` setttings, increase `Key Repeat` to max and `Delay Until Repeat` to one before `short`
 - Replace `Capslock` with `Escape`
+- Install
+  - [Docker](https://docs.docker.com/docker-for-mac/install/)
+  - [Dozer](https://github.com/Mortennn/Dozer) to hide menu bar items
+  - [Karabiner Elements](https://karabiner-elements.pqrs.org/) for keyboard customization
+  - [Postgres](https://www.postgresql.org/download/macosx/) for macOS
+  - [Typora](https://typora.io/) for markdown editing
+  - [Scroll Reverser](https://pilotmoon.com/scrollreverser/) if using an external mouse
+  - [SensibleSideButtons](https://sensible-side-buttons.archagon.net/) if using an external mouse (add this to login items for autostart)
+  - [Magnet](https://apps.apple.com/us/app/magnet/id441258766) for window tiling
+  - [Alfred](https://www.alfredapp.com/) as a spotlight replacement
