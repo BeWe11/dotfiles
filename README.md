@@ -51,3 +51,8 @@ conda create -n neovim python=3.9 pynvim`
   - Python: [Microsoft Python Language Server](https://github.com/microsoft/python-language-server/blob/master/CONTRIBUTING.md#setup)
   - Vue.js: `npm install -g vls`
   - efm (for flake8): `brew install efm-langserver`
+
+## MacOS
+
+- In `Keyboard` setttings, increase `Key Repeat` to max and `Delay Until Repeat` to one before `short`
+- Replace `Capslock` with `Escape`
