@@ -50,6 +50,10 @@ local on_attach_vim = function(client)
 end
 require'lspconfig'.tsserver.setup{on_attach=on_attach_vim}
 require'lspconfig'.vuels.setup{on_attach=on_attach_vim}
+require'lspconfig'.pyls_ms.setup{
+    on_attach = on_attach_vim;
+    cmd = { "dotnet", "exec", "/Users/ben/python-language-server/output/bin/Debug/Microsoft.Python.LanguageServer.dll" };
+}
 require'lspconfig'.efm.setup {
     filetypes = {"python"},
     init_options = {documentFormatting = true, codeAction = true},
@@ -67,10 +71,6 @@ require'lspconfig'.efm.setup {
         }
     },
     on_attach=on_attach_vim
-}
-require'lspconfig'.pyls_ms.setup{
-    on_attach = on_attach_vim;
-    cmd = { "dotnet", "exec", "/Users/ben/python-language-server/output/bin/Debug/Microsoft.Python.LanguageServer.dll" };
 }
 require'callbacks'
 
