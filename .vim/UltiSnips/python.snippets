@@ -39,15 +39,7 @@ from __future__ import print_function, division, unicode_literals
 endsnippet
 
 snippet debug
-`!p
-def func(t):
-	vars = [var.strip() for var in t[1].split(',')]
-	result = ''
-	for var in vars[:-1]:
-		result += var + ': {}, '
-	result += vars[-1] + ': {}'
-	return result
-`print('`!p snip.rv=func(t)`'.format(${1}))
+print(f"{$0 = }")
 endsnippet
 
 snippet pdb
