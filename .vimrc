@@ -54,23 +54,10 @@ require'lspconfig'.pyls_ms.setup{
     on_attach = on_attach_vim;
     cmd = { "dotnet", "exec", "/Users/ben/python-language-server/output/bin/Debug/Microsoft.Python.LanguageServer.dll" };
 }
-require'lspconfig'.efm.setup {
-    filetypes = {"python"},
-    init_options = {documentFormatting = true, codeAction = true},
-    settings = {
-        rootMarkers = {".git/"},
-        languages = {
-            python = {
-                {
-                    lintCommand = "flake8 --stdin-display-name ${INPUT} -",
-                    lintStdin = true,
-                    lintIgnoreExitCode = true,
-                    lintFormats = {"%f:%l:%c: %m"}
-                }
-            }
-        }
-    },
-    on_attach=on_attach_vim
+require'lspconfig'.efm.setup{
+    filetypes = {"python"};
+    init_options = {documentFormatting = true, codeAction = true};
+    on_attach = on_attach_vim;
 }
 require'callbacks'
 

@@ -4,6 +4,7 @@ files=".bash_aliases \
        .bash_profile \
        .bashrc \
        .condarc \
+       .config/efm-langserver \
        .config/nvim \
        .gitconfig \
        .tmux.conf \
