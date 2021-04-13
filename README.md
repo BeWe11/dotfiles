@@ -10,6 +10,7 @@
 - Download [iTerm2](https://iterm2.com/), then
   - Download and activate [this colorscheme](https://github.com/chriskempson/base16-iterm2/blob/master/base16-ocean.dark.256.itermcolors)
   - Download and activate [this font](https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/JetBrainsMono.zip), set font size to 13px and vertical line spacing to 120%
+  - Configure iTerm2 to use the `com.googlecode.iterm2.plist` file as its settings file
 
 - Download and install [Homebrew](https://brew.sh/), then install the following brew packages:
   - fzf
