@@ -56,7 +56,6 @@ require'lspconfig'.pyls_ms.setup{
 }
 require'lspconfig'.efm.setup{
     filetypes = {"python"};
-    init_options = {documentFormatting = true, codeAction = true};
     on_attach = on_attach_vim;
 }
 require'callbacks'
