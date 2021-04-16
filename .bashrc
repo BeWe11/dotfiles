@@ -13,7 +13,7 @@ export PATH=/Users/ben/.dotnet:$PATH
 export HOMEBREW_CASK_OPTS="--appdir=/Applications"
 export EDITOR=nvim
 
-export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --color=never --glob "!.git/*"'
+export FZF_DEFAULT_COMMAND='rg --files --hidden --follow --smart-case --color=never --glob "!.git/*"'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 [ -f ~/.fzf.bash ] && source ~/.fzf.bash
