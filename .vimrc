@@ -526,6 +526,11 @@ function! FormatFile()
 endfunction
 nnoremap <leader>F :call FormatFile()<CR>
 
+function OpenDiagnostics()
+    lua vim.lsp.diagnostic.set_loclist()
+endfunction
+nnoremap <leader>D :call OpenDiagnostics()<CR>
+
 nnoremap [c [czz
 nnoremap ]c ]czz
 nmap <silent> [t <Plug>(ale_previous_wrap)
