@@ -35,7 +35,7 @@ fi
 alias g++='g++ --std=c++11'
 
 rgf() {
-    rg -g "$1" --files
+    rg --files -g "*$1*"
 }
 
 function copypath { realpath "$1" | pbcopy; }
