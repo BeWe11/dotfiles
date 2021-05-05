@@ -27,6 +27,7 @@ Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'tpope/vim-unimpaired'
 Plug 'preservim/nerdtree'
 Plug 'alvan/vim-closetag'
+Plug 'tpope/vim-eunuch'
 " Extras
 Plug 'sbdchd/neoformat'
 Plug 'tpope/vim-fugitive'
