@@ -437,12 +437,14 @@ nnoremap <leader>bw :bp\|bd #<CR>
 nnoremap <leader>ev :vsplit ~/.vimrc<CR>
 nnoremap <leader>ef :call <SID>open_type_conf()<CR>
 nnoremap <leader>et :vsplit ~/.todo.txt<CR>
-nnoremap <leader>sv :source $MYVIMRC<CR>
+nnoremap <leader>lv :source $MYVIMRC<CR>
 nnoremap <leader>sf :call <SID>source_type_conf()<CR>
 " nnoremap <leader>j :cn<CR>
 " nnoremap <leader>k :cp<CR>
 " nnoremap <leader>l :ccl<CR>
 nnoremap <leader>s :wincmd r<CR>
+nnoremap <leader>sv :vsplit<CR>
+nnoremap <leader>sh :split<CR>
 nnoremap <leader>r :call MakeNoEnter()<CR>
 nnoremap <C-j> <C-d>zz
 nnoremap <C-k> <C-u>zz
