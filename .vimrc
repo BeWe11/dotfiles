@@ -520,7 +520,7 @@ nnoremap <leader>gD :Gvdiff HEAD^<CR>
 nnoremap <leader>gs :Gstatus<CR>
 nnoremap <leader>gS :Gstatus<CR><C-w>T
 nnoremap <leader>gl :silent! Glog<CR>
-vnoremap <leader>gb :Gblame<CR>
+vnoremap <leader>gb :Git blame<CR>
 
 function! FormatFile()
     let save_pos = getpos(".")
