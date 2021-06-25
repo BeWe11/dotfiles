@@ -59,7 +59,7 @@ unset __conda_setup
 
 # Setup Poetry and pyenv
 export PATH="$HOME/.poetry/bin:$PATH"
-eval "$(pyenv init -)"
+eval "$(pyenv init --path)"
 
 # Setup for rust
 export PATH="$HOME/.cargo/bin:$PATH"
