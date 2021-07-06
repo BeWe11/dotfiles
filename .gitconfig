@@ -2,7 +2,7 @@
      name = Benjamin Weigang
      email = Benjamin.Weigang@mailbox.org
 [core]
-     editor = vim
+	editor = nvim
 	excludesfile = /Users/ben/.gitignore
     ; excludesfile = $HOME/.gitignore_global
 [alias]
