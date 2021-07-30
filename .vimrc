@@ -92,7 +92,7 @@ call sign_define("LspDiagnosticsSignError", {"text" : "", "texthl" : "LspDiag
 call sign_define("LspDiagnosticsSignWarning", {"text" : "", "texthl" : "LspDiagnosticsDefaultWarning"})
 call sign_define("LspDiagnosticsSignInformation", {"text" : "", "texthl" : "LspDiagnosticsDefaultInformation"})
 call sign_define("LspDiagnosticsSignHint", {"text" : "", "texthl" : "LspDiagnosticsDefaultHint"})
-autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics()
+autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics({focusable = false})
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <c-]>    <cmd>lua vim.lsp.buf.implementation()<CR>
