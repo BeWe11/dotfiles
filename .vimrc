@@ -52,7 +52,14 @@ end
 require'lspconfig'.tsserver.setup{on_attach=on_attach_vim}
 require'lspconfig'.vuels.setup{on_attach=on_attach_vim}
 require'lspconfig'.pyright.setup{
-    on_attach = on_attach_vim;
+  on_attach = on_attach_vim;
+  settings = {
+    python = {
+      analysis = {
+        typeCheckingMode = "off"
+      }
+    }
+  }
 }
 require'lspconfig'.efm.setup{
     filetypes = {"python"};
