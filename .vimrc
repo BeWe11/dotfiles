@@ -174,6 +174,16 @@ let g:neoformat_enabled_python = ['isort', 'black']
 let g:neoformat_enabled_javascript = ['prettier']
 let g:neoformat_enabled_typescript = ['prettier']
 let g:neoformat_enabled_html = ['prettier']
+let g:neoformat_htmldjango_jsbeautify = {
+            \ 'exe': 'js-beautify',
+            \ 'args': [
+            \    '--type html',
+            \    '--indent-size 2',
+            \    '--templating django',
+            \],
+            \ 'stdin': 1,
+            \ }
+let g:neoformat_enabled_htmldjango = ['jsbeautify']
 let g:neoformat_cpp_clangformat = {
             \ 'exe': 'clang-format',
             \ 'args': ['-assume-filename=file.cpp', '-style=google'],
