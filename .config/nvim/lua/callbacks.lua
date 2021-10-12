@@ -6,7 +6,6 @@ local log = vim.lsp.log
 
 local location_callback = function(_, method, result)
   if result == nil or vim.tbl_isempty(result) then
-  local _ = log.info() and log.info(method, 'No location found')
   return nil
   end
 
