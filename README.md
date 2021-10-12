@@ -49,7 +49,7 @@ conda create -n neovim python=3.9 pynvim`
 
 - Install Language Servers:
   - Typescript: `npm install -g typescript typescript-language-server`
-  - Python: [Microsoft Python Language Server](https://github.com/microsoft/python-language-server/blob/master/CONTRIBUTING.md#setup)
+  - Python (Pyright): `npm install -g pyright`
   - Vue.js: `npm install -g vls`
   - efm (for flake8): `brew install efm-langserver`
 
