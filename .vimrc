@@ -516,8 +516,8 @@ nnoremap <leader>ge :Gedit<CR>
 nnoremap <leader>gE :Gvsplit<CR>
 nnoremap <leader>gd :Gvdiff<CR>
 nnoremap <leader>gD :Gvdiff HEAD^<CR>
-nnoremap <leader>gs :Gstatus<CR>
-nnoremap <leader>gS :Gstatus<CR><C-w>T
+nnoremap <leader>gs :Git<CR>
+nnoremap <leader>gS :Git<CR><C-w>T
 nnoremap <leader>gl :silent! Glog<CR>
 vnoremap <leader>gb :Git blame<CR>
 
