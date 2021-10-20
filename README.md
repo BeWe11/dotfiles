@@ -65,5 +65,5 @@ conda create -n neovim python=3.9 pynvim`
   - [Typora](https://typora.io/) for markdown editing
   - [Scroll Reverser](https://pilotmoon.com/scrollreverser/) if using an external mouse
   - [SensibleSideButtons](https://sensible-side-buttons.archagon.net/) if using an external mouse (add this to login items for autostart)
-  - [Magnet](https://apps.apple.com/us/app/magnet/id441258766) for window tiling
+  - [Magnet](https://apps.apple.com/us/app/magnet/id441258766) or [Rectangle](https://rectangleapp.com/) for window tiling
   - [Alfred](https://www.alfredapp.com/) as a spotlight replacement
