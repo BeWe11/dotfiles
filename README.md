@@ -67,3 +67,5 @@ conda create -n neovim python=3.9 pynvim`
   - [SensibleSideButtons](https://sensible-side-buttons.archagon.net/) if using an external mouse (add this to login items for autostart)
   - [Magnet](https://apps.apple.com/us/app/magnet/id441258766) or [Rectangle](https://rectangleapp.com/) for window tiling
   - [Alfred](https://www.alfredapp.com/) as a spotlight replacement
+  - [TablePlus](https://tableplus.com/) as a database viewer
+  - [LICEcap](https://www.cockos.com/licecap/) to record screen sessions as GIFs
