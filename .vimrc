@@ -479,6 +479,7 @@ nnoremap <leader>ae :Tab /=<CR>
 nnoremap <leader>ac y :Tab /<C-R>"<CR>
 xnoremap <leader>ac y :Tab /<C-R>"<CR>
 xnoremap <leader>ae :Tab /=<CR>
+nmap cp :let @+ = expand("%:p")<CR>
 
 " command! Cnext try | cnext | catch | cfirst | catch | endtry
 " command! Cprevious try | cprevious | catch | clast | catch | endtry
