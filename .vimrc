@@ -38,6 +38,7 @@ Plug 'leafgarland/typescript-vim'
 Plug 'vim-python/python-syntax'
 Plug 'Vimjas/vim-python-pep8-indent'
 Plug 'derekwyatt/vim-scala'
+Plug 'hashivim/vim-terraform'
 " Snippets
 Plug 'sirver/ultisnips'
 Plug 'honza/vim-snippets'
