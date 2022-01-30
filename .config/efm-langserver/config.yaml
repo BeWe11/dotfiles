@@ -17,7 +17,16 @@ tools:
       - "%f:%l:%c: %tarning: %m"
       - "%f:%l:%c: %tote: %m"
 
+  sql-sqlfluff: &sql-sqlfluff
+    lint-command: "sqlfluff lint --force --no-color"
+    lint-formats:
+      - "%f:%l:%c: %trror: %m"
+      - "%f:%l:%c: %tarning: %m"
+      - "%f:%l:%c: %tote: %m"
+
 languages:
   python:
     - <<: *python-flake8
     - <<: *python-mypy
+  sql:
+    - <<: *sql-sqlfluff

@@ -63,7 +63,7 @@ require'lspconfig'.pyright.setup{
   }
 }
 require'lspconfig'.efm.setup{
-    filetypes = {"python"};
+    filetypes = {"python", "sql"};
     on_attach = on_attach_vim;
 }
 require'callbacks'
@@ -268,7 +268,6 @@ set colorcolumn=80
 set textwidth=79
 set nowrap           " do not automatically wrap on load
 set formatoptions-=t " do not automatically wrap text when typing
-
 
 " set vim-projectroot root signifiers
 let g:rootmarkers = ['.svn', '.git', 'DONE', '.hg', '.bzr', '_darcs', 'build.xml']
