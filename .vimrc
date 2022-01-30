@@ -46,6 +46,7 @@ call plug#end()
 
 " completion
 set updatetime=750
+
 lua <<EOF
 local on_attach_vim = function(client)
   require'completion'.on_attach(client)
@@ -57,6 +58,7 @@ require'lspconfig'.pyright.setup{
   settings = {
     python = {
       analysis = {
+        autoSearchPaths = false,
         typeCheckingMode = "off"
       }
     }
@@ -68,24 +70,13 @@ require'lspconfig'.efm.setup{
 }
 require'callbacks'
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.with(
-  vim.lsp.diagnostic.on_publish_diagnostics, {
-    -- This will disable virtual text, like doing:
-    -- let g:diagnostic_enable_virtual_text = 0
-    virtual_text = false,
-
-    -- This is similar to:
-    -- let g:diagnostic_show_sign = 1
-    -- To configure sign display,
-    --  see: ":help vim.lsp.diagnostic.set_signs()"
-    signs = true,
-
-    -- This is similar to:
-    -- "let g:diagnostic_insert_delay = 1"
-    update_in_insert = false,
-  }
-)
+vim.diagnostic.config({
+  virtual_text = false,
+  signs = true,
+  update_in_insert = false,
+})
 EOF
+
 " Use <Tab> and <S-Tab> to navigate through popup menu
 inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
@@ -95,11 +86,11 @@ set completeopt=menuone,noinsert,noselect
 set shortmess+=c
 let g:completion_trigger_on_delete = 1
 let g:completion_enable_snippet = 'UltiSnips'
-call sign_define("LspDiagnosticsSignError", {"text" : "", "texthl" : "LspDiagnosticsDefaultError"})
-call sign_define("LspDiagnosticsSignWarning", {"text" : "", "texthl" : "LspDiagnosticsDefaultWarning"})
-call sign_define("LspDiagnosticsSignInformation", {"text" : "", "texthl" : "LspDiagnosticsDefaultInformation"})
-call sign_define("LspDiagnosticsSignHint", {"text" : "", "texthl" : "LspDiagnosticsDefaultHint"})
-autocmd CursorHold * lua vim.lsp.diagnostic.show_line_diagnostics({focusable = false})
+call sign_define("DiagnosticSignError", {"text" : "", "texthl" : "DiagnosticSignError"})
+call sign_define("DiagnosticSignWarn", {"text" : "", "texthl" : "DiagnosticSignWarn"})
+call sign_define("DiagnosticSignInfo", {"text" : "", "texthl" : "DiagnosticSignInfo"})
+call sign_define("DiagnosticSignHint", {"text" : "", "texthl" : "DiagnosticSignHint"})
+autocmd CursorHold * lua vim.diagnostic.open_float(nil, {focus = false})
 nnoremap <silent> gd <cmd>lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K     <cmd>lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <c-]>    <cmd>lua vim.lsp.buf.implementation()<CR>
@@ -545,9 +536,11 @@ endfunction
 nnoremap <leader>F :call FormatFile()<CR>
 
 function OpenDiagnostics()
-    lua vim.lsp.diagnostic.set_loclist()
+    lua vim.diagnostic.setloclist()
 endfunction
 nnoremap <leader>D :call OpenDiagnostics()<CR>
+nnoremap ]d <cmd>lua vim.diagnostic.goto_next()<CR>
+nnoremap [d <cmd>lua vim.diagnostic.goto_prev()<CR>
 
 nnoremap [c [czz
 nnoremap ]c ]czz
