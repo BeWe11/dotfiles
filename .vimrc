@@ -388,21 +388,11 @@ endfunction
 map <silent> <F6> :call <SID>SwitchSolarized()<CR>
 
 " use ripgrep instead of ag in fzf
-" Using colors in interactive mode will slow down vim tremendously, there we
-" set colors of for 'Rg'. We define another 'Find' function with colors that is
-" supposed to be called with a starting query
-command! -bang -nargs=* Rg
-  \ call fzf#vim#grep(
-  \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%')
-  \           : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
-  \   <bang>0)
-
 command! -bang -nargs=* Find
   \ call fzf#vim#grep(
   \   'rg --column --line-number --no-heading --color=always --smart-case '.shellescape(<q-args>), 1,
-  \   <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%')
-  \           : fzf#vim#with_preview({'options': '--delimiter : --nth 4..'}, 'right:50%:hidden', '?'),
+  \   <bang>0 ? fzf#vim#with_preview({'options': '--delimiter : --nth 4.. --exact'}, 'right:50%')
+  \           : fzf#vim#with_preview({'options': '--delimiter : --nth 4.. --exact'}, 'right:50%:hidden', '?'),
   \   <bang>0)
 
 " Redefine fzf functions to use preview windows in vertical split when
@@ -517,8 +507,8 @@ nnoremap <leader>fgf :GFiles<CR>
 nnoremap <leader>fgF :GFiles!<CR>
 nnoremap <leader>fbb :Buffers<CR>
 nnoremap <leader>fbB :Buffers!<CR>
-nnoremap <leader>fi :Rg<CR>
-nnoremap <leader>fI :Rg!<CR>
+nnoremap <leader>fi :Find<CR>
+nnoremap <leader>fI :Find!<CR>
 nnoremap <leader>fl :Lines<CR>
 nnoremap <leader>fL :Lines!<CR>
 nnoremap <leader>fbl :BLines<CR>
