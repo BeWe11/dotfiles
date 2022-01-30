@@ -15,7 +15,7 @@
 - Download and install [Homebrew](https://brew.sh/), then install the following brew packages:
   - fzf
   - htop
-  - neovim --HEAD
+  - neovim
   - ripgrep
   - tmux
   - tmuxinator
