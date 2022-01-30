@@ -154,7 +154,7 @@ if exists('+termguicolors')
 endif
 " set t_ut= "fix background redrawing in tmux
 let base16colorspace=256
-colo base16-ocean
+colo base16-one-light
 
 
 " Vim-Airline settings
