@@ -197,6 +197,13 @@ let g:neoformat_cpp_clangformat = {
             \ 'args': ['-assume-filename=file.cpp', '-style=google'],
             \ 'stdin': 1,
             \ }
+" XXX: This format command does not work reliably right now
+let g:neoformat_enabled_sql = ['sqlfluff']
+let g:neoformat_sql_sqlfluff = {
+            \ 'exe': 'sqlfluff',
+            \ 'args': ['fix', '--force', '--nocolor', '-'],
+            \ 'stdin': 1,
+            \ }
 let g:neoformat_run_all_formatters = 1
 
 " NERDTree settings
