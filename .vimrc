@@ -201,6 +201,7 @@ let g:neoformat_run_all_formatters = 1
 
 " NERDTree settings
 let NERDTreeMapOpenVSplit='v'
+let NERDTreeWinSize=50
 
 " vim-closetag settings
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.vue'
