@@ -65,7 +65,7 @@ require'lspconfig'.pyright.setup{
   }
 }
 require'lspconfig'.efm.setup{
-    filetypes = {"python", "sql"};
+    filetypes = {"python"};
     on_attach = on_attach_vim;
 }
 require'callbacks'
