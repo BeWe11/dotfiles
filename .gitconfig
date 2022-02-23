@@ -17,7 +17,6 @@
      ls = ls-files
      pu = push -u origin master
      serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
-     up = "!git remote update -p; git merge --ff-only @{u}"
      mg = merge --no-ff
 [color]
     ui = true
@@ -27,3 +26,5 @@
 	helper = osxkeychain
 [merge]
 	conflictstyle = diff3
+[pull]
+	ff = only
