@@ -6,18 +6,19 @@
 	excludesfile = /Users/ben/.gitignore
     ; excludesfile = $HOME/.gitignore_global
 [alias]
-     st = status
-     ci = commit
-     ca = commit -a
-     br = branch
-     co = checkout
-     df = diff
-     lg = log -p
-     logv = log --name-status
-     ls = ls-files
-     pu = push -u origin master
-     serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
-     mg = merge --no-ff
+    st = status
+    ci = commit
+    ca = commit -a
+    br = branch
+    co = checkout
+    df = diff
+    lg = log -p
+    logv = log --name-status
+    logp = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    ls = ls-files
+    pu = push -u origin master
+    serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
+    mg = merge --no-ff
 [color]
     ui = true
 [push]
