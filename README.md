@@ -16,6 +16,7 @@
   - fzf
   - htop
   - neovim
+  - npm
   - ripgrep
   - tmux
   - tmuxinator
@@ -53,13 +54,13 @@ rm tmux-256color
 - Replace `Capslock` with `Escape`
 - Install
   - [Docker](https://docs.docker.com/docker-for-mac/install/)
-  - [Dozer](https://github.com/Mortennn/Dozer) to hide menu bar items
+  - [Hidden](https://github.com/dwarvesf/hidden) to hide menu bar items
   - [Karabiner Elements](https://karabiner-elements.pqrs.org/) for keyboard customization
   - [Postgres](https://www.postgresql.org/download/macosx/) for macOS
   - [Typora](https://typora.io/) for markdown editing
   - [Scroll Reverser](https://pilotmoon.com/scrollreverser/) if using an external mouse
   - [SensibleSideButtons](https://sensible-side-buttons.archagon.net/) if using an external mouse (add this to login items for autostart)
   - [Magnet](https://apps.apple.com/us/app/magnet/id441258766) or [Rectangle](https://rectangleapp.com/) for window tiling
-  - [Alfred](https://www.alfredapp.com/) as a spotlight replacement
+  - [Alfred](https://www.alfredapp.com/) or [Raycast](https://www.raycast.com/) as a spotlight replacement
   - [TablePlus](https://tableplus.com/) as a database viewer
   - [LICEcap](https://www.cockos.com/licecap/) to record screen sessions as GIFs
