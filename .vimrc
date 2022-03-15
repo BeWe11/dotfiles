@@ -424,7 +424,7 @@ command! -bang -nargs=? -complete=dir GFiles
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 
-# Override fzf commit commands to make more space for side-by-side diffs
+" Override fzf commit commands to make more space for side-by-side diffs
 command! -bar -bang -range=% Commits let b:fzf_winview = winsaveview() | <line1>,<line2>call fzf#vim#commits(fzf#vim#with_preview({ "placeholder": "", 'options': '--preview-window=right,70%' }), <bang>0)
 command! -bar -bang -range=% BCommits let b:fzf_winview = winsaveview() | <line1>,<line2>call fzf#vim#buffer_commits(fzf#vim#with_preview({ "placeholder": "", 'options': '--preview-window=right,70%' }), <bang>0)
 
