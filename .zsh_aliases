@@ -1,0 +1,18 @@
+alias ..='cd ..'
+alias ...='cd ../..'
+alias la='ls -la'
+alias ll='ls -l'
+alias md='mkdir -p'
+alias rd='rmdir'
+alias less='less -R'
+alias tm='tmux new-window'
+alias vimpure='vim --noplugin -u /dev/null -n'
+alias vim='nvim'
+alias ls='ls -G'
+
+
+alias g++='g++ --std=c++11'
+
+rgf() {
+    rg --files -g "*$1*"
+}

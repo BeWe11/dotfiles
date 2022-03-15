@@ -1,16 +1,17 @@
-########## Variables
-
-dir=~/dotfiles                                           # dotfiles directory
-olddir=~/dotfiles_old                                    # old dotfiles backup directory
+dir=~/dotfiles                     # dotfiles directory
+olddir=~/dotfiles_old              # old dotfiles backup directory
 files=".bash_aliases \
        .bash_profile \
-       .tmux.conf \
+       .bashrc \
+       .config/efm-langserver \
+       .config/nvim \
        .gitconfig \
-       .ctags \
+       .tmux.conf \
        .vimrc \
-       .vim"  # list of files/folders to symlink in homedir
-
-##########
+       .vim \
+       .zprofile \
+       .zsh_aliases \
+       .zshrc"                       # list of files/folders to symlink in homedir
 
 for file in $files; do
     if [ -h ~/$file ]
