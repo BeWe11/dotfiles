@@ -30,22 +30,16 @@ rm tmux-256color
 
 ## Python
 
-- Download and install [miniconda3](https://docs.conda.io/en/latest/miniconda.html)
 - Download and install [pyenv](https://github.com/pyenv/pyenv) with `brew install pyenv`
-- Run `pyenv install 3.9.1` and `pyenv global 3.9.1` to replace the default python2 with python3.9.1
+- Run `pyenv install 3.X.X` and `pyenv global 3.X.X` to replace the default python2 with pythonX.X.X (choose the most recent version).
 
-- Run `pip install black isort flake8` to allow basic autoformatting and linting without activating an environment
+- Run `pip install black isort flake8 neovim` to allow basic autoformatting and linting without activating an environment and to add neovim integration
 
 ## Vim
 
 - Install vim-plug with `sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'`
 
 - Run ":PlugInstall" in Vim to install Vim plugins.
-
-- Create a neovim conda env with
-```bash
-conda create -n neovim python=3.9 pynvim`
-```
 
 - Install Language Servers:
   - Typescript: `npm install -g typescript typescript-language-server`
