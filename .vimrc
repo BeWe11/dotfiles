@@ -522,16 +522,12 @@ nnoremap <leader>fbb :Buffers<CR>
 nnoremap <leader>fbB :Buffers!<CR>
 nnoremap <leader>fi :Find<CR>
 nnoremap <leader>fI :Find!<CR>
-nnoremap <leader>fl :Lines<CR>
-nnoremap <leader>fL :Lines!<CR>
-nnoremap <leader>fbl :BLines<CR>
-nnoremap <leader>fbL :BLines!<CR>
 nnoremap <leader>fc :Commits<CR>
 nnoremap <leader>fC :Commits!<CR>
-nnoremap <leader>fbc :BCommits<CR>
-nnoremap <leader>fbC :BCommits!<CR>
-vnoremap <leader>f y :Find <C-R>"<CR>
-vnoremap <leader>F y :Find! <C-R>"<CR>
+noremap <leader>fl :BCommits<CR>
+noremap <leader>fL :BCommits!<CR>
+vnoremap <leader>fi y :Find <C-R>"<CR>
+vnoremap <leader>FI y :Find! <C-R>"<CR>
 nnoremap <leader>fn :NERDTreeToggle<CR>
 
 " fugitive mappings
