@@ -109,7 +109,7 @@ let g:python_highlight_all = 1
 
 
 " Use neovim conda environment for neovim internal python
-let g:python3_host_prog = '/Users/ben/miniconda3/envs/neovim/bin/python'
+let g:python3_host_prog = '/Users/ben/.pyenv/shims/python'
 
 " latex settings
 let g:tex_flavor = "latex"
