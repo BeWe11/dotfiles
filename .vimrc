@@ -428,9 +428,6 @@ command! -bang -nargs=? -complete=dir GFiles
 command! -bar -bang -range=% Commits let b:fzf_winview = winsaveview() | <line1>,<line2>call fzf#vim#commits(fzf#vim#with_preview({ "placeholder": "", 'options': '--preview-window=right,70%' }), <bang>0)
 command! -bar -bang -range=% BCommits let b:fzf_winview = winsaveview() | <line1>,<line2>call fzf#vim#buffer_commits(fzf#vim#with_preview({ "placeholder": "", 'options': '--preview-window=right,70%' }), <bang>0)
 
-" vim-sneak EasyMotion mode
-let g:sneak#s_next = 1
-let g:sneak#streak = 1
 
 " helper function for editing filetype specific config files
 function! <SID>open_type_conf()
