@@ -4,7 +4,7 @@ Plug 'neovim/nvim-lspconfig'
 Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-lua/lsp-status.nvim'
 " FZF
-Plug '/usr/local/opt/fzf'
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
 " Status line
 Plug 'vim-airline/vim-airline'
@@ -146,6 +146,22 @@ endif
 " set t_ut= "fix background redrawing in tmux
 let base16colorspace=256
 colo base16-one-light
+let $BAT_THEME = 'base16'
+
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+  \ 'bg':      ['bg', 'Normal'],
+  \ 'hl':      ['fg', 'Comment'],
+  \ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+  \ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+  \ 'hl+':     ['fg', 'Statement'],
+  \ 'info':    ['fg', 'PreProc'],
+  \ 'border':  ['fg', 'Ignore'],
+  \ 'prompt':  ['fg', 'Conditional'],
+  \ 'pointer': ['fg', 'Exception'],
+  \ 'marker':  ['fg', 'Keyword'],
+  \ 'spinner': ['fg', 'Label'],
+  \ 'header':  ['fg', 'Comment'] }
 
 
 " Vim-Airline settings
@@ -408,6 +424,9 @@ command! -bang -nargs=? -complete=dir GFiles
   \           : fzf#vim#with_preview('right:50%:hidden', '?'),
   \   <bang>0)
 
+# Override fzf commit commands to make more space for side-by-side diffs
+command! -bar -bang -range=% Commits let b:fzf_winview = winsaveview() | <line1>,<line2>call fzf#vim#commits(fzf#vim#with_preview({ "placeholder": "", 'options': '--preview-window=right,70%' }), <bang>0)
+command! -bar -bang -range=% BCommits let b:fzf_winview = winsaveview() | <line1>,<line2>call fzf#vim#buffer_commits(fzf#vim#with_preview({ "placeholder": "", 'options': '--preview-window=right,70%' }), <bang>0)
 
 " vim-sneak EasyMotion mode
 let g:sneak#s_next = 1

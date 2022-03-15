@@ -14,6 +14,8 @@
 
 - Download and install [Homebrew](https://brew.sh/), then install the following brew packages:
   - fzf
+  - git-delta
+  - bat
   - htop
   - neovim
   - npm
