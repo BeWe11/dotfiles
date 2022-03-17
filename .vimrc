@@ -1,8 +1,13 @@
 call plug#begin('~/.vim/plugged')
 " IDE stuff
 Plug 'neovim/nvim-lspconfig'
-Plug 'nvim-lua/completion-nvim'
 Plug 'nvim-lua/lsp-status.nvim'
+Plug 'hrsh7th/cmp-nvim-lsp'
+Plug 'hrsh7th/cmp-buffer'
+Plug 'hrsh7th/cmp-path'
+Plug 'hrsh7th/cmp-cmdline'
+Plug 'hrsh7th/nvim-cmp'
+Plug 'onsails/lspkind-nvim'
 " FZF
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -41,6 +46,7 @@ Plug 'derekwyatt/vim-scala'
 Plug 'hashivim/vim-terraform'
 " Snippets
 Plug 'sirver/ultisnips'
+Plug 'quangnguyen30192/cmp-nvim-ultisnips'
 Plug 'honza/vim-snippets'
 call plug#end()
 
@@ -48,17 +54,116 @@ call plug#end()
 set updatetime=750
 
 lua <<EOF
-local on_attach_vim = function(client)
-  require'completion'.on_attach(client)
+-- Setup nvim-cmp.
+local t = function(str)
+    return vim.api.nvim_replace_termcodes(str, true, true, true)
 end
-require'lspconfig'.tsserver.setup{on_attach=on_attach_vim}
-require'lspconfig'.vuels.setup{on_attach=on_attach_vim}
+
+local lspkind = require('lspkind')
+local cmp = require'cmp'
+cmp.setup({
+formatting = {
+    format = lspkind.cmp_format({
+        mode = 'symbol_text', -- show only symbol annotations
+        preset = 'default',
+        maxwidth = 50,
+      })
+    },
+    snippet = {
+      expand = function(args)
+        vim.fn["UltiSnips#Anon"](args.body)
+      end,
+    },
+    mapping = {
+      ["<Tab>"] = cmp.mapping({
+          c = function()
+              if cmp.visible() then
+                  cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+              else
+                  cmp.complete()
+              end
+          end,
+          i = function(fallback)
+              if cmp.visible() then
+                  cmp.select_next_item({ behavior = cmp.SelectBehavior.Insert })
+              elseif vim.fn["UltiSnips#CanJumpForwards"]() == 1 then
+                  vim.api.nvim_feedkeys(t("<Plug>(ultisnips_jump_forward)"), 'm', true)
+              else
+                  fallback()
+              end
+          end,
+          s = function(fallback)
+              if vim.fn["UltiSnips#CanJumpForwards"]() == 1 then
+                  vim.api.nvim_feedkeys(t("<Plug>(ultisnips_jump_forward)"), 'm', true)
+              else
+                  fallback()
+              end
+          end
+      }),
+      ["<S-Tab>"] = cmp.mapping({
+          c = function()
+              if cmp.visible() then
+                  cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
+              else
+                  cmp.complete()
+              end
+          end,
+          i = function(fallback)
+              if cmp.visible() then
+                  cmp.select_prev_item({ behavior = cmp.SelectBehavior.Insert })
+              elseif vim.fn["UltiSnips#CanJumpBackwards"]() == 1 then
+                  return vim.api.nvim_feedkeys( t("<Plug>(ultisnips_jump_backward)"), 'm', true)
+              else
+                  fallback()
+              end
+          end,
+          s = function(fallback)
+              if vim.fn["UltiSnips#CanJumpBackwards"]() == 1 then
+                  return vim.api.nvim_feedkeys( t("<Plug>(ultisnips_jump_backward)"), 'm', true)
+              else
+                  fallback()
+              end
+          end
+      }),
+      ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
+      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+    },
+    sources = cmp.config.sources({
+      { name = 'nvim_lsp' },
+      { name = 'ultisnips' },
+    }, {
+      { name = 'buffer' },
+    })
+})
+
+-- Use buffer source for `/` (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline('/', {
+sources = {
+  { name = 'buffer' }
+}
+})
+
+-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+cmp.setup.cmdline(':', {
+sources = cmp.config.sources({
+  { name = 'path' }
+}, {
+  { name = 'cmdline' }
+})
+})
+
+-- Setup lspconfig.
+local capabilities = require('cmp_nvim_lsp').update_capabilities(vim.lsp.protocol.make_client_capabilities())
+require'lspconfig'.tsserver.setup{capabilities=capabilities}
+require'lspconfig'.vuels.setup{capabilities=capabilities}
 require'lspconfig'.pyright.setup{
-  on_attach = on_attach_vim;
+  capabilities = capabilities;
   settings = {
     python = {
       analysis = {
         autoSearchPaths = false,
+        autoImportCompletions = false,
+        completeFunctionParens = true,
         typeCheckingMode = "off"
       }
     }
@@ -66,7 +171,7 @@ require'lspconfig'.pyright.setup{
 }
 require'lspconfig'.efm.setup{
     filetypes = {"python"};
-    on_attach = on_attach_vim;
+    capabilities = capabilities;
 }
 require'callbacks'
 
@@ -77,15 +182,9 @@ vim.diagnostic.config({
 })
 EOF
 
-" Use <Tab> and <S-Tab> to navigate through popup menu
-inoremap <expr> <Tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " Set completeopt to have a better completion experience
-set completeopt=menuone,noinsert,noselect
-" Avoid showing message extra message when using completion
-set shortmess+=c
-let g:completion_trigger_on_delete = 1
-let g:completion_enable_snippet = 'UltiSnips'
+set completeopt=menu,menuone,noselect
+
 call sign_define("DiagnosticSignError", {"text" : "", "texthl" : "DiagnosticSignError"})
 call sign_define("DiagnosticSignWarn", {"text" : "", "texthl" : "DiagnosticSignWarn"})
 call sign_define("DiagnosticSignInfo", {"text" : "", "texthl" : "DiagnosticSignInfo"})
@@ -100,9 +199,6 @@ nnoremap <silent> gr    <cmd>lua vim.lsp.buf.references()<CR>
 nnoremap <silent> g0    <cmd>lua vim.lsp.buf.document_symbol()<CR>
 nnoremap <silent> gW    <cmd>lua vim.lsp.buf.workspace_symbol()<CR>
 nnoremap <silent> gD    <cmd>lua vim.lsp.buf.declaration()<CR>
-let g:completion_confirm_key = ""
-imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
-                 \ "\<Plug>(completion_confirm_completion)"  : "\<c-e>\<CR>" :  "\<CR>"
 
 " Activate python-syntax extra highlighting
 let g:python_highlight_all = 1
@@ -354,35 +450,6 @@ endfunction
 " EnhancedJumps delay time to switch buffers
 let g:stopFirstAndNotifyTimeoutLen = 1
 
-" Remove conflict between YouCompleteMe and UltiSnips
-function! g:UltiSnips_Complete()
-  call UltiSnips#JumpForwards()
-  if g:ulti_jump_forwards_res == 0
-    call UltiSnips#ExpandSnippet()
-    if g:ulti_expand_res == 0
-      if pumvisible()
-        return "\<C-N>"
-      else
-        return "\<TAB>"
-      endif
-    endif
-  endif
-  return ""
-endfunction
-
-function! g:UltiSnips_Reverse()
-  call UltiSnips#JumpBackwards()
-  if g:ulti_jump_backwards_res == 0
-    return "\<C-P>"
-  endif
-  return ""
-endfunction
-
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsJumpBackwardTrigger . " <C-R>=g:UltiSnips_Reverse()<cr>"
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " switch between solarized dark and light, iterm2 escape codes are wrapped
 " by tmux codes so that tmux sends them to iterm unchanged
@@ -399,6 +466,33 @@ function! s:SwitchSolarized()
     endif
 endfunction
 map <silent> <F6> :call <SID>SwitchSolarized()<CR>
+
+
+" Set completion colors
+" gray
+highlight! CmpItemAbbrDeprecated guibg=NONE gui=strikethrough guifg=#808080
+" light blue
+highlight! CmpItemAbbrMatch guibg=NONE guifg=#0184bc
+highlight! CmpItemAbbrMatchFuzzy guibg=NONE guifg=#0184bc
+" light blue
+highlight! CmpItemKindInterface guibg=NONE guifg=#4078f2
+highlight! CmpItemKindText guibg=NONE guifg=#4078f2
+" blue
+highlight! CmpItemKindFunction guibg=NONE guifg=#4078f2
+highlight! CmpItemKindMethod guibg=NONE guifg=#4078f2
+" purple
+highlight! CmpItemKindClass guibg=NONE guifg=#a626a4
+" orange
+highlight! CmpItemKindConstant guibg=NONE guifg=#d75f00
+" yellow
+highlight! CmpItemKindModule guibg=NONE guifg=#c18401
+" red
+highlight! CmpItemKindVariable guibg=NONE guifg=#ca1243
+" front
+highlight! CmpItemKindKeyword guibg=NONE guifg=#D4D4D4
+highlight! CmpItemKindProperty guibg=NONE guifg=#D4D4D4
+highlight! CmpItemKindUnit guibg=NONE guifg=#D4D4D4
+
 
 " use ripgrep instead of ag in fzf
 command! -bang -nargs=* Find
