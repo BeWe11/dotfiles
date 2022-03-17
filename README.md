@@ -23,6 +23,8 @@
   - tmux
   - tmuxinator
   - wget
+  - pyenv
+  - pyenv-virtualenv
 
 - Add the `tmux-256color` terminfo to the system ncurses, otherwise colors will be off when using system programs like `ls` while using tmux:
 ```bash
@@ -33,10 +35,10 @@ rm tmux-256color
 
 ## Python
 
-- Download and install [pyenv](https://github.com/pyenv/pyenv) with `brew install pyenv`
 - Run `pyenv install 3.X.X` and `pyenv global 3.X.X` to replace the default python2 with pythonX.X.X (choose the most recent version).
-
-- Run `pip install black isort flake8 neovim` to allow basic autoformatting and linting without activating an environment and to add neovim integration
+- Run `pyenv virtualenv 3.X.X neovim` to create a virtual env for neovim
+- Run `pyenv shell neovim` to active the venv
+- Run `pip install black isort flake8 pynvim` to allow basic autoformatting and linting without activating an environment and to add neovim integration
 
 ## Vim
 
