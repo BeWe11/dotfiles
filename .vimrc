@@ -527,7 +527,7 @@ nnoremap <leader>fC :Commits!<CR>
 noremap <leader>fl :BCommits<CR>
 noremap <leader>fL :BCommits!<CR>
 vnoremap <leader>fi y :Find <C-R>"<CR>
-vnoremap <leader>FI y :Find! <C-R>"<CR>
+vnoremap <leader>fI y :Find! <C-R>"<CR>
 nnoremap <leader>fn :NERDTreeToggle<CR>
 
 " fugitive mappings
