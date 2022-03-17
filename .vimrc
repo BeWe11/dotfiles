@@ -108,8 +108,8 @@ imap <expr> <cr>  pumvisible() ? complete_info()["selected"] != "-1" ?
 let g:python_highlight_all = 1
 
 
-" Use neovim conda environment for neovim internal python
-let g:python3_host_prog = '/Users/ben/.pyenv/shims/python'
+" Use global python as neovim internal python
+let g:python3_host_prog = '/Users/ben/.pyenv/versions/neovim/bin/python'
 
 " latex settings
 let g:tex_flavor = "latex"
