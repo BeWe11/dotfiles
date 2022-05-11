@@ -126,7 +126,7 @@ formatting = {
           end
       }),
       ['<C-Space>'] = cmp.mapping(cmp.mapping.complete(), { 'i', 'c' }),
-      ['<CR>'] = cmp.mapping.confirm({ select = true }),
+      ['<CR>'] = cmp.mapping.confirm({ select = false }),
     },
     sources = cmp.config.sources({
       { name = 'nvim_lsp' },
