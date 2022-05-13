@@ -52,7 +52,8 @@ export GPG_TTY
 
 # Setup Poetry and pyenv
 export PATH="$HOME/.local/bin:$PATH"
-eval "$(pyenv init --path)"
+export PYENV_ROOT="$HOME/.pyenv"
+export PATH="$PYENV_ROOT/bin:$PATH"
 eval "$(pyenv init -)"
 
 # Setup for rust
