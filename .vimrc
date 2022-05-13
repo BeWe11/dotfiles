@@ -190,6 +190,7 @@ call sign_define("DiagnosticSignWarn", {"text" : "", "texthl" : "DiagnosticSi
 call sign_define("DiagnosticSignInfo", {"text" : "", "texthl" : "DiagnosticSignInfo"})
 call sign_define("DiagnosticSignHint", {"text" : "", "texthl" : "DiagnosticSignHint"})
 autocmd CursorHold * lua vim.diagnostic.open_float(nil, {focus = false})
+set signcolumn=yes
 nnoremap <silent> gd        <cmd> lua vim.lsp.buf.definition()<CR>
 nnoremap <silent> K         <cmd> lua vim.lsp.buf.hover()<CR>
 nnoremap <silent> <leader>r <cmd> lua vim.lsp.buf.rename()<CR>
