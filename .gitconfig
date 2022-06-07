@@ -1,6 +1,6 @@
 [user]
-     name = Benjamin Weigang
-     email = Benjamin.Weigang@mailbox.org
+    name = Benjamin Weigang
+    email = benjamin@cubicl.de
 [core]
 	editor = nvim
     pager = delta
@@ -27,6 +27,7 @@
     pu = push -u origin master
     serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
     mg = merge --no-ff
+    cleanup = "!git branch --merged | egrep -v '(^\\*|master|main|dev)' | xargs -n 1 -r git branch -d"
 [color]
     ui = true
 [push]
