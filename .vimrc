@@ -30,7 +30,8 @@ Plug 'ggandor/lightspeed.nvim'
 Plug 'godlygeek/tabular'
 Plug 'ConradIrwin/vim-bracketed-paste'
 Plug 'tpope/vim-unimpaired'
-Plug 'preservim/nerdtree'
+Plug 'kyazdani42/nvim-web-devicons'
+Plug 'kyazdani42/nvim-tree.lua'
 Plug 'alvan/vim-closetag'
 Plug 'tpope/vim-eunuch'
 " Extras
@@ -180,6 +181,19 @@ vim.diagnostic.config({
   signs = true,
   update_in_insert = false,
 })
+
+require("nvim-tree").setup({
+    sort_by = "case_sensitive",
+    view = {
+        adaptive_size = true,
+    },
+    renderer = {
+        group_empty = true,
+        indent_markers = {
+            enable = true,
+      },
+    },
+})
 EOF
 
 " Set completeopt to have a better completion experience
@@ -310,10 +324,6 @@ let g:neoformat_sql_sqlfluff = {
             \ 'stdin': 1,
             \ }
 let g:neoformat_run_all_formatters = 1
-
-" NERDTree settings
-let NERDTreeMapOpenVSplit='v'
-let NERDTreeWinSize=50
 
 " vim-closetag settings
 let g:closetag_filenames = '*.html,*.xhtml,*.phtml,*.vue'
@@ -623,7 +633,7 @@ noremap <leader>fl :BCommits<CR>
 noremap <leader>fL :BCommits!<CR>
 vnoremap <leader>fi y :Find <C-R>"<CR>
 vnoremap <leader>fI y :Find! <C-R>"<CR>
-nnoremap <leader>fn :NERDTreeToggle<CR>
+nnoremap <leader>fn :NvimTreeToggle<CR>
 
 " fugitive mappings
 nnoremap <leader>ge :Gedit<CR>
