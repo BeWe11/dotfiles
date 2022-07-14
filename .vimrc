@@ -8,6 +8,7 @@ Plug 'hrsh7th/cmp-path'
 Plug 'hrsh7th/cmp-cmdline'
 Plug 'hrsh7th/nvim-cmp'
 Plug 'onsails/lspkind-nvim'
+Plug 'vim-test/vim-test'
 " FZF
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'junegunn/fzf.vim'
@@ -389,6 +390,17 @@ let g:rootmarkers = ['.svn', '.git', 'DONE', '.hg', '.bzr', '_darcs', 'build.xml
 
 let g:gutentags_cache_dir = '~/.tags'
 
+" vim-test
+let test#strategy = {
+  \ 'nearest': 'neovim',
+  \ 'file':    'basic',
+  \ 'suite':   'basic',
+\}
+let g:test#neovim#start_normal = 1
+let g:test#basic#start_normal = 1
+let test#neovim#term_position = "bel"
+let test#python#pytest#options = '-v'
+
 
 "------------------------------------------------------------------------------"
 "----- todo setup, refer to https://www.python.org/dev/peps/pep-0350/ ---------"
@@ -613,10 +625,10 @@ noremap <Right> <Nop>
 noremap <Up> <Nop>
 noremap <Down> <Nop>
 
-nnoremap <leader>tt :call ListTodo(0)<CR>
-nnoremap <leader>tc :call ListTodo(1)<CR>
-nnoremap <leader>td :call FinishTodo()<CR>
-vnoremap <leader>td :call FinishTodo()<CR>
+"nnoremap <leader>tt :call ListTodo(0)<CR>
+"nnoremap <leader>tc :call ListTodo(1)<CR>
+"nnoremap <leader>td :call FinishTodo()<CR>
+"vnoremap <leader>td :call FinishTodo()<CR>
 
 " FZF mappings
 nnoremap <leader>ff :Files<CR>
@@ -644,6 +656,13 @@ nnoremap <leader>gs :Git<CR>
 nnoremap <leader>gS :Git<CR><C-w>T
 nnoremap <leader>gl :silent! 0Gclog<CR>
 vnoremap <leader>gb :Git blame<CR>
+
+" vim-test
+nmap <silent> <leader>tt :TestNearest<CR>
+nmap <silent> <leader>tT :TestFile<CR>
+nmap <silent> <leader>ta :TestSuite<CR>
+nmap <silent> <leader>tl :TestLast<CR>
+nmap <silent> <leader>tg :TestVisit<CR>
 
 function! FormatFile()
     let save_pos = getpos(".")
