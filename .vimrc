@@ -235,7 +235,8 @@ au Syntax * RainbowParenthesesLoadRound
 au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
-let NERDSpaceDelims = 1
+" AutoPair Settings
+let g:AutoPairsMultilineClose = 0
 
 " Color settings
 function! SetBackground()
