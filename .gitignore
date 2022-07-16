@@ -1,5 +1,6 @@
 .vim/.netrwhist
 .vim/plugged/
+.config/nvim/plugged
 *.swp
 .expenses.pdl
 .sync

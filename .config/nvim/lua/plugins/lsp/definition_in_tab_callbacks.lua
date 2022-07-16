@@ -1,3 +1,4 @@
+-- Show definitions in a new tab
 local function goto_definition(split_cmd)
   local util = vim.lsp.util
   local log = require("vim.lsp.log")
