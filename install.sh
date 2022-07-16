@@ -7,8 +7,6 @@ files=".bash_aliases \
        .config/nvim \
        .gitconfig \
        .tmux.conf \
-       .vimrc \
-       .vim \
        .zprofile \
        .zsh_aliases \
        .zshrc"                       # list of files/folders to symlink in homedir
