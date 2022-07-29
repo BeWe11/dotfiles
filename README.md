@@ -19,6 +19,7 @@
   - htop
   - neovim
   - npm
+  - nvm
   - ripgrep
   - tmux
   - tmuxinator
