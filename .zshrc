@@ -8,7 +8,7 @@ autoload -U compinit; compinit
 bindkey -e
 
 if [ -f ~/.zsh_aliases ]; then
-	. ~/.zsh_aliases
+    . ~/.zsh_aliases
 fi
 
 export LC_ALL=en_US.UTF-8
