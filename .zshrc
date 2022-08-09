@@ -63,3 +63,11 @@ export PATH="$HOME/.cargo/bin:$PATH"
 export NVM_DIR="$HOME/.nvm"
 [ -s "/opt/homebrew/opt/nvm/nvm.sh" ] && \. "/opt/homebrew/opt/nvm/nvm.sh"  # This loads nvm
 [ -s "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm" ] && \. "/opt/homebrew/opt/nvm/etc/bash_completion.d/nvm"  # This loads nvm bash_completion
+
+if [ -f ~/.vimprofilename ]; then
+    if [[ $(< .vimprofilename) = "dark" ]]; then
+        echo -e "\033]1337;SetProfile=dark\033\\"
+    elif [[ $(< .vimprofilename) = "light" ]]; then
+        echo -e "\033]1337;SetProfile=light\033\\"
+    fi
+fi
