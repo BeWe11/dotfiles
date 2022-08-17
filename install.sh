@@ -41,4 +41,4 @@ for file in $files; do
     fi
 done
 
-source source ~/.zprofile
+source ~/.zprofile
