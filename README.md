@@ -8,8 +8,7 @@
 ## Terminal
 
 - Download [iTerm2](https://iterm2.com/), then
-  - Download and activate [this colorscheme](https://github.com/chriskempson/base16-iterm2/blob/master/base16-ocean.dark.256.itermcolors)
-  - Download and activate [this font](https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/JetBrainsMono.zip), set font size to 13px and vertical line spacing to 120%
+  - Download [this font](https://github.com/ryanoasis/nerd-fonts/releases/download/v2.1.0/JetBrainsMono.zip)
   - Configure iTerm2 to use the `com.googlecode.iterm2.plist` file as its settings file
 
 - Download and install [Homebrew](https://brew.sh/), then install the following brew packages:
@@ -18,12 +17,12 @@
   - bat
   - htop
   - neovim
-  - npm
   - nvm
   - ripgrep
   - tmux
   - tmuxinator
   - wget
+  - xz
   - pyenv
   - pyenv-virtualenv
 
@@ -42,11 +41,13 @@ rm tmux-256color
 - Run `pip install black isort flake8 pynvim` to allow basic autoformatting and linting without activating an environment and to add neovim integration
 - Run `curl -sSL https://install.python-poetry.org | python3 -` to install [Poetry](https://python-poetry.org/)
 
+## Node
+
+- Install the latest node.js LTS release using `nvm install --lts`
+
 ## Vim
 
-- Install vim-plug with `sh -c 'curl -fLo "${XDG_DATA_HOME:-$HOME/.local/share}"/nvim/site/autoload/plug.vim --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim'`
-
-- Run ":PlugInstall" in Vim to install Vim plugins.
+- Run ":PlugInstall" in Neovim to install Vim plugins.
 
 - Install Language Servers:
   - Typescript: `npm install -g typescript typescript-language-server`
