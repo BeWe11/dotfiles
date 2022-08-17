@@ -65,9 +65,9 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" ] && \. "$(brew --prefix)/opt/nvm/etc/bash_completion.d/nvm" # This loads nvm bash_completion
 
 if [ -f ~/.vimprofilename ]; then
-    if [[ $(< .vimprofilename) = "dark" ]]; then
+    if [[ $(< ~/.vimprofilename) = "dark" ]]; then
         echo -e "\033]1337;SetProfile=dark\033\\"
-    elif [[ $(< .vimprofilename) = "light" ]]; then
+    elif [[ $(< ~/.vimprofilename) = "light" ]]; then
         echo -e "\033]1337;SetProfile=light\033\\"
     fi
 fi
