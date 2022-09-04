@@ -1,6 +1,6 @@
 [user]
     name = Benjamin Weigang
-    email = benjamin@cubicl.de
+    email = benjamin.weigang@mailbox.org
 [core]
 	editor = nvim
     pager = delta
@@ -9,7 +9,7 @@
 [interactive]
     diffFilter = delta --color-only
 [delta]
-    syntax-theme = GitHub
+    syntax-theme = Github
     side-by-side = true
 [diff]
     colorMoved = default
