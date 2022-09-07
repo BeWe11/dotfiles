@@ -9,7 +9,7 @@
 [interactive]
     diffFilter = delta --color-only
 [delta]
-    syntax-theme = Github
+    syntax-theme = Nord
     side-by-side = true
 [diff]
     colorMoved = default
