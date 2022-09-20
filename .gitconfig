@@ -27,7 +27,7 @@
     pu = push -u origin master
     serve = !git daemon --reuseaddr --verbose  --base-path=. --export-all ./.git
     mg = merge --no-ff
-    cleanup = "!git branch --merged | egrep -v '(^\\*|master|main|dev)' | xargs -n 1 -r git branch -d && git remote prune origin"
+    cleanup = "!git branch --merged | egrep -v '^(\\*|\\+)' | xargs -n 1 -r git branch -d && git remote prune origin"
 [color]
     ui = true
 [push]
