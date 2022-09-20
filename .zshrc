@@ -1,4 +1,4 @@
-eval "$(brew shellenv)"
+eval $(/opt/homebrew/bin/brew shellenv)
 
 printf '\n%.0s' {1..100}
 
