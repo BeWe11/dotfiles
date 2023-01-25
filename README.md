@@ -65,7 +65,7 @@ rm tmux-256color
   - [Hidden](https://github.com/dwarvesf/hidden) to hide menu bar items
   - [Karabiner Elements](https://karabiner-elements.pqrs.org/) for keyboard customization
   - [Postgres](https://www.postgresql.org/download/macosx/) for macOS
-  - [Typora](https://typora.io/) for markdown editing
+  - [Obsidian](https://obsidian.md/) for markdown editing and note taking
   - [Scroll Reverser](https://pilotmoon.com/scrollreverser/) if using an external mouse
   - [SensibleSideButtons](https://sensible-side-buttons.archagon.net/) if using an external mouse (add this to login items for autostart)
   - [Magnet](https://apps.apple.com/us/app/magnet/id441258766) or [Rectangle](https://rectangleapp.com/) for window tiling
