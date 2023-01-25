@@ -32,6 +32,7 @@ curl -O https://gist.githubusercontent.com/nicm/ea9cf3c93f22e0246ec858122d9abea1
 /usr/bin/tic -x tmux-256color
 rm tmux-256color
 ```
+- Run `bat cache --build`, this will override the default `base16` theme with a custom one in `.config/bat/themes`. This seem only changes the line highlight color to a darker version to prevent comments from being unreadable when they are highlighted.
 
 ## Python
 

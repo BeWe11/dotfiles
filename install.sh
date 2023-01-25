@@ -3,6 +3,7 @@ olddir=~/dotfiles_old              # old dotfiles backup directory
 files=".bash_aliases \
        .bash_profile \
        .bashrc \
+       .config/bat \
        .config/efm-langserver \
        .config/nvim \
        .gitconfig \
