@@ -58,6 +58,8 @@ set textwidth=79
 set nowrap           " do not automatically wrap on load
 set formatoptions-=t " do not automatically wrap text when typing
 
+" editorconfig
+let g:EditorConfig_exclude_patterns = ['fugitive://.*']
 
 " key remaps
 nnoremap <leader>bw :bp\|bd #<CR>
