@@ -41,6 +41,7 @@ rm tmux-256color
 - Run `pyenv shell neovim` to active the venv
 - Run `pip install black isort flake8 pynvim` to allow basic autoformatting and linting without activating an environment and to add neovim integration
 - Run `curl -sSL https://install.python-poetry.org | python3 -` to install [Poetry](https://python-poetry.org/)
+- Set poetry option `virtualenvs.prefer-active-python` to `true`
 
 ## Node
 
