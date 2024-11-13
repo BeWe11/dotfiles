@@ -1,6 +1,17 @@
 vim.cmd [[
 " Neoformat options
-let g:neoformat_enabled_python = ['ruff']
+let g:neoformat_python_ruffimports = {
+            \ 'exe': 'ruff',
+            \ 'args': [
+            \    'check',
+            \    '--fix',
+            \    '--select I',
+            \    '-q',
+            \    '-',
+            \],
+            \ 'stdin': 1,
+            \ }
+let g:neoformat_enabled_python = ['ruff', 'ruffimports']
 let g:neoformat_enabled_javascript = ['prettier']
 let g:neoformat_enabled_typescript = ['prettier']
 let g:neoformat_enabled_html = ['prettier']
