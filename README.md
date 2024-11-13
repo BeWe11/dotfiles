@@ -39,7 +39,7 @@ rm tmux-256color
 - Run `pyenv install 3.X.X` and `pyenv global 3.X.X` to replace the default python2 with pythonX.X.X (choose the most recent version).
 - Run `pyenv virtualenv 3.X.X neovim` to create a virtual env for neovim
 - Run `pyenv shell neovim` to active the venv
-- Run `pip install black isort flake8 pynvim` to allow basic autoformatting and linting without activating an environment and to add neovim integration
+- Run `pip install ruff pynvim` to allow basic autoformatting and linting without activating an environment and to add neovim integration
 - Run `curl -sSL https://install.python-poetry.org | python3 -` to install [Poetry](https://python-poetry.org/)
 - Set poetry option `virtualenvs.prefer-active-python` to `true`
 

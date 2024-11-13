@@ -1,11 +1,6 @@
 vim.cmd [[
 " Neoformat options
-let g:neoformat_python_black = {
-                \ 'exe': 'black',
-                \ 'stdin': 1,
-                \ 'args': ['-q', '-'],
-                \ }
-let g:neoformat_enabled_python = ['isort', 'black']
+let g:neoformat_enabled_python = ['ruff']
 let g:neoformat_enabled_javascript = ['prettier']
 let g:neoformat_enabled_typescript = ['prettier']
 let g:neoformat_enabled_html = ['prettier']
