@@ -8,4 +8,5 @@ nnoremap <leader>gs :Git<CR>
 nnoremap <leader>gS :Git<CR><C-w>T
 nnoremap <leader>gl :silent! 0Gclog<CR>
 vnoremap <leader>gb :Git blame<CR>
+nnoremap <leader>gp :Git push<CR>
 ]]
